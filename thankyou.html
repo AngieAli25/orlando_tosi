@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grazie — RESONA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0A0A0A;
+      color: #F5F0EB;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .ty {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ty__video {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .ty__video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ty__video::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.65);
+    }
+
+    .ty__content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 640px;
+    }
+
+    .ty__label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245, 240, 235, 0.45);
+      margin-bottom: 32px;
+      display: block;
+    }
+
+    .ty__title {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #F5F0EB;
+      margin-bottom: 24px;
+    }
+
+    .ty__text {
+      font-size: clamp(15px, 1.2vw, 18px);
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(245, 240, 235, 0.6);
+      margin-bottom: 48px;
+    }
+
+    .ty__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #F5F0EB;
+      text-decoration: none;
+      padding: 16px 36px;
+      border: 1px solid rgba(245, 240, 235, 0.2);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .ty__back:hover {
+      background: rgba(245, 240, 235, 0.08);
+      border-color: rgba(245, 240, 235, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="ty">
+    <div class="ty__video">
+      <video autoplay muted loop playsinline>
+        <source src="images/video_sezione_hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="ty__content">
+      <span class="ty__label">RESONA</span>
+      <h1 class="ty__title">Richiesta inviata.</h1>
+      <p class="ty__text">Ti contatterò entro 24 ore per fissare la tua call di valutazione. Controlla anche la cartella spam.</p>
+      <a href="index.html" class="ty__back"><span>Torna alla pagina principale</span> <span>&#8594;</span></a>
+    </div>
+  </div>
+</body>
+</html>

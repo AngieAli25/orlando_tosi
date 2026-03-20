@@ -1264,6 +1264,7 @@
       resize: vertical;
       font-family: inherit;
       outline: none;
+      min-height: 120px;
     }
     .cta-form__submit {
       width: 100%;
@@ -1947,19 +1948,23 @@
               <input type="text" id="fNome" required>
             </div>
             <div class="cta-form__group">
-              <label>Email *</label>
-              <input type="email" id="fEmail" required>
+              <label>Cognome *</label>
+              <input type="text" id="fCognome" required>
             </div>
           </div>
           <div class="cta-form__row">
             <div class="cta-form__group">
+              <label>Email *</label>
+              <input type="email" id="fEmail" required>
+            </div>
+            <div class="cta-form__group">
               <label>Telefono *</label>
               <input type="tel" id="fTel" required>
             </div>
-            <div class="cta-form__group">
-              <label>Situazione (opzionale)</label>
-              <input type="text" id="fSit" placeholder="In poche parole">
-            </div>
+          </div>
+          <div class="cta-form__group" style="margin-bottom:24px">
+            <label>Messaggio</label>
+            <textarea class="cta-form__textarea" id="fMessaggio" rows="4" placeholder="Scrivi qui il tuo messaggio..."></textarea>
           </div>
           <button class="cta-form__submit" id="fBtn" type="submit">Richiedi la call di valutazione</button>
           <p id="fMsg" style="text-align:center;margin-top:16px;font-size:13px;color:var(--cream-30);display:none"></p>
@@ -2233,10 +2238,11 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var nome = document.getElementById('fNome').value.trim();
+        var cognome = document.getElementById('fCognome').value.trim();
         var email = document.getElementById('fEmail').value.trim();
         var tel = document.getElementById('fTel').value.trim();
-        var sit = document.getElementById('fSit').value.trim();
-        if (!nome || !email || !tel) {
+        var messaggio = document.getElementById('fMessaggio').value.trim();
+        if (!nome || !cognome || !email || !tel) {
           msg.textContent = 'Compila tutti i campi obbligatori.';
           msg.style.color = 'rgba(255,100,100,0.7)';
           msg.style.display = 'block';
@@ -2250,9 +2256,9 @@
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome: nome, email: email, telefono: tel, situazione: sit })
+          body: JSON.stringify({ nome: nome, cognome: cognome, email: email, telefono: tel, messaggio: messaggio })
         }).then(function() {
-          form.innerHTML = '<div style="text-align:center;padding:40px 0"><h3 style="font-family:var(--font);font-size:clamp(20px,2.5vw,32px);font-weight:400;color:var(--cream);margin-bottom:12px">Richiesta inviata.</h3><p style="color:var(--cream-30);font-size:15px;font-weight:300">Ti contatterò entro 24 ore per fissare la tua call di valutazione.</p></div>';
+          window.location.href = 'thankyou.html';
         }).catch(function() {
           msg.textContent = 'Errore di invio. Riprova o scrivimi su Instagram.';
           msg.style.color = 'rgba(255,100,100,0.7)';
