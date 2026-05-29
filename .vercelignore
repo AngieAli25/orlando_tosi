@@ -1,0 +1,6 @@
+# Local-only files — non devono finire online
+.DS_Store
+.claude/
+index.session-backup.html
+RESONA_landing_prototipo_v11.html
+resona-landing-brief.md

@@ -498,25 +498,60 @@
     .marquee-strip {
       overflow: hidden;
       white-space: nowrap;
-      padding: 48px 0;
-      border-top: 1px solid rgba(26,26,26,0.08);
-      border-bottom: 1px solid rgba(26,26,26,0.08);
-      background: var(--cream);
+      padding: 56px 0;
+      border-top: 1px solid rgba(26,26,26,0.12);
+      border-bottom: 1px solid rgba(26,26,26,0.12);
+      background: linear-gradient(180deg, var(--cream) 0%, #EDE9E0 50%, var(--cream) 100%);
       position: relative;
     }
+    /* Sottili linee di rumore decorative sopra/sotto la strip */
+    .marquee-strip::before,
+    .marquee-strip::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(26,26,26,0.18), transparent);
+    }
+    .marquee-strip::before { top: 6px; }
+    .marquee-strip::after { bottom: 6px; }
     .marquee-strip__inner {
       display: inline-flex;
-      gap: 64px;
+      gap: 56px;
+      align-items: center;
       will-change: transform;
     }
+    /* WORDS — default: uppercase contorno trasparente (effetto outline editoriale) */
     .marquee-strip__inner span {
       font-family: var(--font);
-      font-size: clamp(20px, 3vw, 42px);
-      font-weight: 400;
-      color: rgba(26,26,26,0.1);
-      letter-spacing: 6px;
+      font-size: clamp(22px, 3vw, 44px);
+      font-weight: 500;
+      letter-spacing: 8px;
       text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(26,26,26,0.55);
       flex-shrink: 0;
+    }
+    /* Parole alternate: italic serif riempito — crea contrasto tra "vuoto" e "pieno" */
+    .marquee-strip__inner span:nth-child(4n+3) {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 1px;
+      color: rgba(26,26,26,0.7);
+      -webkit-text-stroke: 0;
+      font-size: clamp(26px, 3.4vw, 48px);
+    }
+    /* Puntini di separazione — minuscoli, discreti */
+    .marquee-strip__inner span:nth-child(even) {
+      font-family: var(--font);
+      font-size: 14px;
+      color: rgba(26,26,26,0.28);
+      -webkit-text-stroke: 0;
+      letter-spacing: 0;
+      font-weight: 400;
+      align-self: center;
     }
 
     /* ═══════════════════════════════════════
@@ -762,84 +797,182 @@
        TRANSFORMATION (Il Passaggio)
     ═══════════════════════════════════════ */
     .transformation {
-      background: linear-gradient(180deg, var(--cream) 0%, #EDE9E0 50%, var(--cream) 100%);
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,26,26,0.04) 0%, transparent 70%),
+        linear-gradient(180deg, var(--cream) 0%, #E8E2D6 50%, var(--cream) 100%);
       padding: clamp(120px, 15vw, 220px) 0;
       position: relative;
       overflow: hidden;
     }
+    /* Linea sottile in alto */
     .transformation::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(to right, transparent, rgba(26,26,26,0.1), transparent);
+      background: linear-gradient(to right, transparent, rgba(26,26,26,0.18), transparent);
+    }
+    /* Stesso effetto in basso, simmetria */
+    .transformation::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(26,26,26,0.18), transparent);
     }
     .transformation .section-label { color: rgba(26,26,26,0.5); }
     .tf-header {
       text-align: center;
-      margin-bottom: 80px;
+      margin-bottom: 56px;
+      position: relative;
     }
     .tf-header h2 {
       font-family: var(--font);
       font-size: clamp(30px, 4vw, 58px);
       font-weight: 400;
-      line-height: 1.2;
+      line-height: 1.15;
       color: #1A1A1A;
       max-width: 820px;
       margin: 0 auto;
+      letter-spacing: -0.01em;
+    }
+    .tf-header h2 .tf-em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: 0;
+      color: #1A1A1A;
+      display: inline-block;
     }
     .tf-header .tf-sub {
       font-size: clamp(14px, 1.1vw, 16px);
       font-weight: 300;
       color: rgba(26,26,26,0.5);
       margin-top: 16px;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16px, 1.3vw, 19px);
     }
-    .tf-rows { max-width: 960px; margin: 0 auto; }
+
+    /* Etichette colonne PRIMA / DOPO */
+    .tf-cols-label {
+      display: grid;
+      grid-template-columns: 60px 1fr 56px 1fr;
+      gap: 0;
+      max-width: 980px;
+      margin: 0 auto 18px;
+      padding: 0 8px;
+    }
+    .tf-col {
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.42);
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .tf-col--from { grid-column: 2; text-align: right; }
+    .tf-col--to { grid-column: 4; text-align: left; padding-left: 0; }
+    .tf-col::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 36px;
+      height: 1px;
+    }
+    .tf-col--from::after { right: 0; background: linear-gradient(to left, rgba(26,26,26,0.6), transparent); }
+    .tf-col--to::after { left: 0; background: linear-gradient(to right, rgba(26,26,26,0.6), transparent); }
+    .tf-col-divider { grid-column: 3; }
+
+    .tf-rows { max-width: 980px; margin: 0 auto; position: relative; }
     .tf-row {
       display: grid;
-      grid-template-columns: 44px 1fr 56px 1fr;
+      grid-template-columns: 60px 1fr 56px 1fr;
       gap: 0;
       align-items: stretch;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
     }
+    .tf-row:hover { transform: translateY(-2px); }
+
+    /* Numero — italic Cormorant, decorativo grande */
     .tf-num {
-      font-family: var(--font);
-      font-size: 1.6rem;
-      font-weight: 300;
-      color: rgba(26,26,26,0.15);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(38px, 4vw, 56px);
+      font-weight: 400;
+      color: rgba(26,26,26,0.18);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.6s;
+      transition: color 0.6s, transform 0.6s;
+      line-height: 1;
     }
+    .tf-row:hover .tf-num {
+      color: rgba(26,26,26,0.55);
+      transform: scale(1.08);
+    }
+
+    /* Cards FROM / TO */
     .tf-from, .tf-to {
-      padding: 22px 26px;
+      padding: 26px 30px;
       font-size: clamp(14px, 1vw, 16px);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.65;
       border-radius: 14px;
       transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
       display: flex;
       align-items: center;
+      position: relative;
+      overflow: hidden;
     }
+    /* FROM — più atmosferico, accent rosso desaturato sul bordo destro (esce verso la freccia) */
     .tf-from {
-      background: #1A1A1A;
-      color: rgba(255,255,255,0.6);
+      background: linear-gradient(135deg, #1F1D1B 0%, #141312 100%);
+      color: rgba(255,255,255,0.62);
       text-align: right;
       justify-content: flex-end;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.04);
     }
-    .tf-from strong { color: rgba(255,255,255,0.95); font-weight: 500; }
-    .tf-from:hover { transform: translateX(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+    .tf-from::before {
+      content: '';
+      position: absolute;
+      top: 18%; bottom: 18%;
+      right: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, rgba(184,80,60,0.45), transparent);
+      opacity: 0.7;
+      transition: opacity 0.4s;
+    }
+    .tf-from strong { color: rgba(255,255,255,0.97); font-weight: 500; }
+    .tf-row:hover .tf-from { transform: translateX(-6px); box-shadow: 0 18px 48px rgba(0,0,0,0.28); }
+    .tf-row:hover .tf-from::before { opacity: 1; }
+
+    /* TO — bianco premium, accent oro/sand sul bordo sinistro */
     .tf-to {
-      background: #FFFFFF;
-      color: rgba(26,26,26,0.7);
+      background: linear-gradient(135deg, #FFFFFF 0%, #FBF8F2 100%);
+      color: rgba(26,26,26,0.72);
       text-align: left;
-      border-left: 3px solid rgba(26,26,26,0.15);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-left: 3px solid #B8A480;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .tf-to::before {
+      content: '';
+      position: absolute;
+      top: 18%; bottom: 18%;
+      left: -3px;
+      width: 3px;
+      background: linear-gradient(180deg, transparent, #B8A480, transparent);
+      opacity: 0;
+      transition: opacity 0.5s;
     }
     .tf-to strong { color: #1A1A1A; font-weight: 600; }
-    .tf-to:hover { transform: translateX(4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+    .tf-row:hover .tf-to { transform: translateX(6px); box-shadow: 0 20px 56px rgba(184,164,128,0.18), 0 4px 12px rgba(0,0,0,0.06); }
+    .tf-row:hover .tf-to::before { opacity: 1; }
+
+    /* Freccia — linea sottile + pallino animato */
     .tf-arrow {
       display: flex;
       align-items: center;
@@ -850,12 +983,28 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 8px; right: 8px;
+      left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(to right, rgba(26,26,26,0.1), rgba(26,26,26,0.2), rgba(26,26,26,0.1));
+      background: linear-gradient(to right, rgba(26,26,26,0.08), rgba(26,26,26,0.28) 30%, rgba(184,164,128,0.6) 70%, rgba(184,164,128,0.8));
+      transform: translateY(-0.5px);
     }
+    /* Punto luminoso che "viaggia" al hover */
+    .tf-arrow::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 8px;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: #B8A480;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: left 0.7s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
+      box-shadow: 0 0 8px rgba(184,164,128,0.7);
+    }
+    .tf-row:hover .tf-arrow::after { opacity: 1; left: calc(100% - 12px); }
     .tf-arrow-dot {
-      width: 26px; height: 26px;
+      width: 30px; height: 30px;
       border-radius: 50%;
       border: 1.5px solid rgba(26,26,26,0.2);
       display: flex;
@@ -865,16 +1014,17 @@
       position: relative;
       z-index: 1;
       transition: all 0.4s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
     .tf-arrow-dot svg {
-      width: 11px; height: 11px;
-      stroke: rgba(26,26,26,0.3);
+      width: 12px; height: 12px;
+      stroke: rgba(26,26,26,0.45);
       stroke-width: 2;
       fill: none;
+      transition: stroke 0.3s;
     }
-    .tf-row:hover .tf-arrow-dot { background: #1A1A1A; transform: scale(1.15); }
-    .tf-row:hover .tf-arrow-dot svg { stroke: #FFFFFF; }
-    .tf-row:hover .tf-num { color: rgba(26,26,26,0.4); }
+    .tf-row:hover .tf-arrow-dot { background: #1A1A1A; border-color: #1A1A1A; transform: scale(1.12) rotate(45deg); }
+    .tf-row:hover .tf-arrow-dot svg { stroke: #FFFFFF; transform: rotate(-45deg); }
     .tf-mob-title { display: none; }
 
     /* ═══════════════════════════════════════
@@ -983,29 +1133,48 @@
       top: 20%;
       height: 60%;
       width: 1px;
-      background: rgba(26,26,26,0.08);
+      background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.18), transparent);
     }
     .stat-big__number {
       font-family: var(--font);
-      font-size: clamp(40px, 6vw, 80px);
+      font-size: clamp(48px, 7vw, 92px);
       font-weight: 400;
-      line-height: 0.9;
+      line-height: 1;
       color: #1A1A1A;
-      display: inline;
+      letter-spacing: -0.035em;
+      display: inline-block;
     }
     .stat-big__symbol {
-      font-family: var(--font);
-      font-size: clamp(20px, 3vw, 36px);
-      font-weight: 400;
-      color: #1A1A1A;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(30px, 4.2vw, 60px);
+      font-weight: 600;
+      color: #4A3D24;
+      margin-left: 4px;
+      vertical-align: baseline;
+      letter-spacing: 0;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.35);
     }
     .stat-big__label {
-      font-size: 13px;
-      font-weight: 300;
-      line-height: 1.6;
-      color: #1A1A1A;
-      margin-top: 20px;
-      letter-spacing: 0.5px;
+      font-family: var(--font);
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 400;
+      line-height: 1.55;
+      color: rgba(26,26,26,0.88);
+      margin-top: 28px;
+      letter-spacing: 0.3px;
+      position: relative;
+      padding-top: 20px;
+    }
+    .stat-big__label::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #8E7A55, transparent);
     }
 
     /* ═══════════════════════════════════════
@@ -1055,24 +1224,25 @@
     }
     .about__right > p strong, .about__work p strong { color: #1A1A1A; font-weight: 500; }
     .about__work {
-      border-top: 1px solid rgba(26,26,26,0.1);
-      padding-top: 36px;
-      margin-top: clamp(48px, 6vw, 80px);
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(26,26,26,0.10);
     }
     .about__work h4 {
       font-family: var(--font);
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       text-transform: uppercase;
       color: rgba(26,26,26,0.5);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .about__work p {
       font-size: clamp(15px, 1.1vw, 17px);
       font-weight: 300;
       line-height: 1.85;
       color: rgba(26,26,26,0.7);
+      margin: 0;
     }
     .about__tags {
       display: flex;
@@ -1204,6 +1374,25 @@
       pointer-events: none;
       opacity: 0.4;
     }
+    /* Aurora glow che pulsa dietro al contenuto */
+    .cta-final__glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 110%;
+      height: 110%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 50%, rgba(184,164,128,0.18) 0%, rgba(184,164,128,0.06) 30%, transparent 65%),
+        radial-gradient(circle at 20% 30%, rgba(184,80,60,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(184,164,128,0.08) 0%, transparent 45%);
+      animation: cta-glow 8s ease-in-out infinite;
+    }
+    @keyframes cta-glow {
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+    }
     .cta-final__inner {
       max-width: 620px;
       margin: 0 auto;
@@ -1211,25 +1400,90 @@
       position: relative;
       z-index: 2;
     }
+    /* Eyebrow "Ultimo step" */
+    .cta-final__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #B8A480;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .cta-final__eyebrow-line {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #B8A480);
+      animation: eyebrow-draw 2.4s ease-out infinite;
+    }
+    @keyframes eyebrow-draw {
+      0% { transform: scaleX(0); transform-origin: left; opacity: 0.4; }
+      50% { transform: scaleX(1); transform-origin: left; opacity: 1; }
+      51% { transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; opacity: 0.4; }
+    }
     .cta-final__inner h2 {
       font-family: var(--font);
       font-size: clamp(36px, 4.5vw, 64px);
       font-weight: 400;
+      line-height: 1.15;
       color: var(--cream);
       margin-bottom: 28px;
+      letter-spacing: -0.01em;
+    }
+    .cta-final__inner h2 .cta-em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      color: #D4BC8E;
+      letter-spacing: 0;
+      display: inline-block;
+      position: relative;
+    }
+    /* Linea sottile sotto la parte italic — sottolineatura editoriale */
+    .cta-final__inner h2 .cta-em::after {
+      content: '';
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: -2px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(212,188,142,0.55), transparent);
     }
     .cta-final__inner > p {
       font-size: clamp(15px, 1.1vw, 17px);
       font-weight: 300;
       line-height: 1.85;
       color: var(--cream-30);
-      margin-bottom: 64px;
+      margin-bottom: 56px;
     }
     .cta-form {
-      background: var(--cream);
+      background: linear-gradient(180deg, #F8F2E7 0%, var(--cream) 100%);
       color: #1A1A1A;
       padding: clamp(32px, 4vw, 52px);
       text-align: left;
+      position: relative;
+      border: 1px solid rgba(184,164,128,0.25);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(184,164,128,0.08);
+    }
+    /* Bordo gradient animato attorno al form */
+    .cta-form::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(184,164,128,0.5) 0%, transparent 30%, transparent 70%, rgba(184,164,128,0.5) 100%);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      padding: 1px;
+      opacity: 0.6;
     }
     .cta-form__row {
       display: grid;
@@ -1259,29 +1513,102 @@
       transition: border-color 0.4s;
     }
     .cta-form__group input:focus,
-    .cta-form__textarea:focus { border-color: #1A1A1A; }
+    .cta-form__textarea:focus { border-color: #B8A480; box-shadow: 0 1px 0 #B8A480; }
     .cta-form__textarea {
       resize: vertical;
       font-family: inherit;
       outline: none;
-      min-height: 120px;
+      min-height: 100px;
     }
+    /* Row a colonna singola (telefono, messaggio) */
+    .cta-form__row--single { grid-template-columns: 1fr !important; }
+    /* GDPR checkbox + label */
+    .cta-form__gdpr {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 4px 0 18px;
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: rgba(26,26,26,0.65);
+      cursor: pointer;
+    }
+    .cta-form__gdpr input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: #B8A480;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .cta-form__gdpr a { color: #8E7A55; text-decoration: underline; }
+    /* Footer note sotto il submit */
+    .cta-form__note {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: rgba(26,26,26,0.55);
+    }
+    /* Submit button — glow pulsante per attrarre l'attenzione */
     .cta-form__submit {
       width: 100%;
-      height: 58px;
-      background: #1A1A1A;
+      height: 62px;
+      background: linear-gradient(135deg, #1A1A1A 0%, #2A2723 100%);
       color: var(--cream);
       font-size: 12px;
       font-weight: 500;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      margin-top: 12px;
-      transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+      margin-top: 16px;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      animation: cta-submit-pulse 2.8s ease-in-out infinite;
     }
+    @keyframes cta-submit-pulse {
+      0%, 100% {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15), 0 0 0 0 rgba(184,164,128,0);
+      }
+      50% {
+        box-shadow: 0 10px 32px rgba(0,0,0,0.25), 0 0 0 4px rgba(184,164,128,0.18), 0 0 24px rgba(184,164,128,0.25);
+      }
+    }
+    /* Shimmer che attraversa il bottone */
+    .cta-form__submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(212,188,142,0.18) 50%, transparent 100%);
+      transition: left 0.7s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    .cta-form__submit:hover::before { left: 100%; }
     .cta-form__submit:hover {
-      background: #333;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #2A2723 0%, #1A1A1A 100%);
     }
+    .cta-form__submit-text { position: relative; z-index: 1; }
+    .cta-form__submit-arrow {
+      width: 18px;
+      height: 18px;
+      stroke: var(--cream);
+      stroke-width: 1.8;
+      fill: none;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .cta-form__submit:hover .cta-form__submit-arrow { transform: translateX(6px); }
     .cta-final__quote {
       font-family: var(--font);
       font-style: italic;
@@ -1353,39 +1680,292 @@
         );
       }
 
-      /* Manifesto */
-      .manifesto__pin { height: 100svh; }
-      .manifesto__visual { display: none; }
-      .manifesto__slide { padding: 0 20px; }
-      .manifesto__slide h2 { font-size: clamp(24px, 6.5vw, 36px); line-height: 1.3; }
-      .manifesto__label { margin-bottom: 20px; font-size: 10px; letter-spacing: 3px; }
-      .manifesto__list { max-width: 100%; grid-template-columns: 1fr; }
-      .manifesto__list p { font-size: 11px; padding: 10px 0; }
-      .manifesto__list p strong { font-size: 14px; margin-top: 3px; }
+      /* Manifesto — mobile: pin attivo come desktop, video full-width: 1° in alto, 2° in basso */
+      .manifesto__pin {
+        position: relative;
+        height: 100svh;
+        overflow: hidden;
+      }
+      /* Bridge gradients: piccola sfumatura SOTTO la base del video (top) e SOPRA il video (bottom)
+         per fondere col testo senza coprire l'immagine */
+      .manifesto__pin::before {
+        content: '';
+        position: absolute;
+        top: 22vh;
+        left: 0; right: 0;
+        height: 8vh;
+        background: linear-gradient(to bottom,
+          rgba(245,240,235,0) 0%,
+          rgba(245,240,235,0.55) 55%,
+          var(--cream) 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .manifesto__pin::after {
+        content: '';
+        position: absolute;
+        bottom: 22vh;
+        left: 0; right: 0;
+        height: 8vh;
+        background: linear-gradient(to top,
+          rgba(245,240,235,0) 0%,
+          rgba(245,240,235,0.55) 55%,
+          var(--cream) 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .manifesto__slide {
+        position: absolute;
+        inset: 24vh 0 24vh 0;
+        padding: 8px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 3;
+      }
+      .manifesto__slide h2 { font-size: clamp(24px, 6.5vw, 32px); line-height: 1.3; }
+      .manifesto__label { margin-bottom: 18px; font-size: 10px; letter-spacing: 3px; }
+      .manifesto__list { max-width: 100%; grid-template-columns: 1fr; gap: 0; }
+      .manifesto__list p {
+        font-size: 13.5px;
+        line-height: 1.5;
+        padding: 10px 2px;
+        text-align: left;
+        color: rgba(26,26,26,0.55);
+      }
+      .manifesto__list p strong {
+        font-size: 13.5px;
+        margin-top: 0;
+        line-height: 1.5;
+        display: inline;
+        color: #1A1A1A;
+        font-weight: 600;
+      }
       .manifesto__list p:nth-last-child(-n+2) { border-bottom: none; }
       .manifesto__list p:last-child { border-bottom: 1px solid rgba(26,26,26,0.08); }
-      .manifesto__body { font-size: 14px; line-height: 1.75; margin-top: 16px; max-width: 100%; }
-      .manifesto__cta-wrap { margin-top: 28px; }
+      .manifesto__body { font-size: 14px; line-height: 1.7; margin-top: 14px; max-width: 100%; }
+      .manifesto__cta-wrap { margin-top: 24px; }
 
-      /* Marquee */
-      .marquee-strip { padding: 24px 0; }
+      /* Visual: 1° foto in alto full-width, 2° foto in basso full-width */
+      .manifesto__visual {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 24vh;
+        opacity: 1;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .manifesto__visual--left { top: 0; }
+      .manifesto__visual--right { top: auto; bottom: 0; }
+      .manifesto__visual video {
+        filter: contrast(1.04) brightness(1.02);
+        transform: scale(1.02);
+      }
+      /* Reset ::after del desktop */
+      .manifesto__visual::after {
+        content: none;
+        background: none;
+      }
+      /* Sfumatura cream SOLO sul bordo interno (verso testo) per fade morbido,
+         senza coprire o scurire il video */
+      .manifesto__visual--left::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom,
+          rgba(245,240,235,0) 0%,
+          rgba(245,240,235,0) 65%,
+          rgba(245,240,235,0.45) 88%,
+          var(--cream) 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .manifesto__visual--right::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top,
+          rgba(245,240,235,0) 0%,
+          rgba(245,240,235,0) 65%,
+          rgba(245,240,235,0.45) 88%,
+          var(--cream) 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* Marquee — solo size/spacing su mobile (il trattamento tipografico resta) */
+      .marquee-strip { padding: 36px 0; }
       .marquee-strip__inner { gap: 28px; }
-      .marquee-strip__inner span { font-size: 16px; letter-spacing: 3px; }
+      .marquee-strip__inner span {
+        font-size: 18px;
+        letter-spacing: 4px;
+        -webkit-text-stroke-width: 0.8px;
+      }
+      .marquee-strip__inner span:nth-child(4n+3) {
+        font-size: 22px;
+        letter-spacing: 0.5px;
+      }
+      .marquee-strip__inner span:nth-child(even) {
+        font-size: 12px;
+      }
 
       /* Transformation mobile */
       .transformation { padding: clamp(80px, 12vw, 140px) 0; }
       .tf-header { margin-bottom: 36px; }
       .tf-header h2 { font-size: clamp(24px, 6.5vw, 36px); }
       .tf-header .tf-sub { font-size: 14px; }
-      .tf-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 12px; }
-      .tf-desk-title { display: none; }
-      .tf-mob-title { display: block; }
-      .tf-num { display: none; }
-      .tf-from { display: none; }
-      .tf-arrow { display: none; }
-      .tf-to { text-align: left; border-radius: 12px; padding: 18px 20px; font-size: 14px; border-left-width: 2px; }
-      .tf-to strong { font-weight: 500; }
-      .tf-sub { display: none; }
+      /* Mostro sia FROM che TO impilate verticalmente */
+      .tf-desk-title { display: block; }
+      .tf-mob-title { display: none; }
+      .tf-cols-label { display: none; }
+
+      .tf-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-bottom: 26px;
+        align-items: stretch;
+      }
+      .tf-row:hover { transform: none; }
+
+      /* Numero — piccolo serif italic sopra la coppia */
+      .tf-num {
+        display: block;
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 22px;
+        font-weight: 400;
+        color: rgba(26,26,26,0.45);
+        text-align: left;
+        margin-bottom: 6px;
+        line-height: 1;
+        padding-left: 4px;
+        justify-content: flex-start;
+      }
+      .tf-row:hover .tf-num { transform: none; color: rgba(26,26,26,0.45); }
+
+      /* FROM card mobile */
+      .tf-from {
+        display: flex;
+        background: linear-gradient(135deg, #1F1D1B 0%, #141312 100%);
+        color: rgba(255,255,255,0.7);
+        text-align: left;
+        justify-content: flex-start;
+        border-radius: 10px;
+        padding: 18px 18px 18px 22px;
+        margin-top: 10px;
+        font-size: 13.5px;
+        line-height: 1.55;
+        position: relative;
+        overflow: visible;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      }
+      .tf-from::before {
+        content: 'Prima';
+        position: absolute;
+        top: -9px;
+        left: 14px;
+        right: auto;
+        bottom: auto;
+        width: auto;
+        height: auto;
+        background: var(--cream);
+        font-family: var(--font);
+        font-size: 9px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: rgba(184,80,60,0.9);
+        padding: 2px 9px;
+        border-radius: 3px;
+        font-weight: 500;
+        opacity: 1;
+        line-height: 1.2;
+        font-style: normal;
+      }
+      .tf-row:hover .tf-from { transform: none; box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+      .tf-row:hover .tf-from::before { opacity: 1; }
+
+      /* Mini-freccia verticale tra le due card */
+      .tf-arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 26px;
+        margin: 0 auto;
+      }
+      .tf-arrow::before {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 50%;
+        width: 1px;
+        height: 100%;
+        right: auto;
+        background: linear-gradient(to bottom, rgba(26,26,26,0.05), rgba(184,164,128,0.6));
+        transform: translateX(-0.5px);
+      }
+      .tf-arrow::after { display: none; }
+      .tf-arrow-dot {
+        width: 22px;
+        height: 22px;
+        transform: rotate(90deg);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      }
+      .tf-arrow-dot svg { width: 9px; height: 9px; }
+      .tf-row:hover .tf-arrow-dot {
+        transform: rotate(90deg);
+        background: #FFFFFF;
+        border-color: rgba(26,26,26,0.2);
+      }
+      .tf-row:hover .tf-arrow-dot svg { stroke: rgba(26,26,26,0.45); transform: none; }
+
+      /* TO card mobile */
+      .tf-to {
+        background: linear-gradient(135deg, #FFFFFF 0%, #FBF8F2 100%);
+        color: rgba(26,26,26,0.72);
+        text-align: left;
+        border-left: 3px solid #B8A480;
+        border-radius: 10px;
+        padding: 18px 18px 18px 22px;
+        margin-top: 10px;
+        font-size: 13.5px;
+        line-height: 1.55;
+        position: relative;
+        overflow: visible;
+        box-shadow: 0 4px 16px rgba(184,164,128,0.12), 0 1px 4px rgba(0,0,0,0.04);
+      }
+      .tf-to::before {
+        content: 'Dopo';
+        position: absolute;
+        top: -9px;
+        left: 14px;
+        right: auto;
+        bottom: auto;
+        width: auto;
+        height: auto;
+        background: var(--cream);
+        font-family: var(--font);
+        font-size: 9px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #8E7A55;
+        padding: 2px 9px;
+        border-radius: 3px;
+        font-weight: 500;
+        opacity: 1;
+        line-height: 1.2;
+        font-style: normal;
+      }
+      .tf-to strong { font-weight: 600; }
+      .tf-row:hover .tf-to { transform: none; box-shadow: 0 4px 16px rgba(184,164,128,0.12), 0 1px 4px rgba(0,0,0,0.04); }
+      .tf-row:hover .tf-to::before { opacity: 1; }
+
+      .tf-sub { display: block; }
 
       /* Il Metodo */
       .meth { padding: clamp(80px, 12vw, 140px) 20px; }
@@ -1419,14 +1999,26 @@
       .stat-big:not(:last-child)::after { display: none; }
       .stat-big { padding: 28px 16px; border-bottom: 1px solid rgba(26,26,26,0.08); }
       .stat-big:last-child { border-bottom: none; }
-      .stat-big__number { font-size: clamp(40px, 12vw, 56px) !important; }
-      .stat-big__symbol { font-size: clamp(20px, 6vw, 28px) !important; }
-      .stat-big__label { font-size: 12px; margin-top: 10px; }
+      .stat-big__number { font-size: clamp(48px, 14vw, 72px) !important; font-weight: 400 !important; }
+      .stat-big__symbol { font-size: clamp(28px, 7.5vw, 42px) !important; margin-left: 3px; }
+      .stat-big__label { font-size: 14px; margin-top: 18px; padding-top: 16px; font-weight: 500; color: #1A1A1A; }
+      .stat-big__label::before { width: 32px; }
 
       /* About */
       .about { padding: clamp(80px, 12vw, 140px) 0; }
       .about__inner { grid-template-columns: 1fr; gap: 36px; }
-      .about__image { height: clamp(320px, 70vw, 420px); object-position: center top; }
+      .about__image-container {
+        clip-path: none !important;
+        border-radius: 12px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .about__image {
+        width: 100%;
+        height: clamp(360px, 80vw, 460px);
+        object-fit: cover;
+        object-position: center top;
+      }
       .about__right h2 { font-size: clamp(26px, 6.5vw, 36px); margin-bottom: 20px; }
       .about__right > p { font-size: 14px; margin-bottom: 14px; line-height: 1.8; }
       .about__work { padding-top: 24px; margin-top: 28px; }
@@ -1453,13 +2045,16 @@
 
       /* CTA */
       .cta-final { padding: clamp(80px, 12vw, 140px) 0; }
+      .cta-final__eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; gap: 10px; }
+      .cta-final__eyebrow-line { width: 22px; }
       .cta-final__inner h2 { font-size: clamp(26px, 7vw, 42px); margin-bottom: 16px; }
       .cta-final__inner > p { font-size: 14px; margin-bottom: 36px; line-height: 1.75; }
       .cta-form { padding: 24px 20px; }
       .cta-form__row { grid-template-columns: 1fr; gap: 18px; margin-bottom: 18px; }
       .cta-form__group label { font-size: 10px; }
       .cta-form__group input, .cta-form__textarea { font-size: 16px; padding: 14px 0; }
-      .cta-form__submit { height: 52px; font-size: 11px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .cta-form__submit { height: 56px; font-size: 11px; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .cta-form__submit-arrow { width: 16px; height: 16px; }
       .cta-final__quote { font-size: 13px; margin-top: 36px; line-height: 1.7; }
 
       /* Footer */
@@ -1477,11 +2072,12 @@
       .hero__title { font-size: 26px; }
       .hero__sub { font-size: 13px; margin-bottom: 28px; }
 
-      .manifesto__slide { padding: 0 16px; }
+      .manifesto__slide { padding: 8px 18px; inset: 22vh 0 22vh 0; }
       .manifesto__slide h2 { font-size: 22px; }
-      .manifesto__list p { font-size: 10px; padding: 8px 0; }
-      .manifesto__list p strong { font-size: 13px; }
-      .manifesto__body { font-size: 13px; }
+      .manifesto__list p { font-size: 12.5px; padding: 8px 2px; line-height: 1.45; }
+      .manifesto__list p strong { font-size: 12.5px; line-height: 1.45; }
+      .manifesto__body { font-size: 13px; line-height: 1.6; }
+      .manifesto__visual { height: 22vh; }
 
       .btn-main { padding: 14px 24px; font-size: 10px; width: 100%; justify-content: center; }
 
@@ -1559,6 +2155,413 @@
       .cta-form__submit { margin-bottom: env(safe-area-inset-bottom); }
     }
 
+    /* ═══════════════════════════════════════
+       CREDENTIALS — Formazione & Certificazioni
+    ═══════════════════════════════════════ */
+    .credentials {
+      margin-top: clamp(56px, 7vw, 88px);
+      padding-top: clamp(44px, 5vw, 64px);
+      border-top: 1px solid rgba(26,26,26,0.12);
+    }
+    .credentials__label {
+      display: block;
+      text-align: center;
+      color: #8E7A55;
+      margin-bottom: clamp(36px, 4.5vw, 56px);
+      letter-spacing: 4px;
+    }
+    .credentials__group {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: clamp(32px, 5vw, 64px);
+      padding: clamp(24px, 3vw, 36px) 0;
+      border-bottom: 1px solid rgba(26,26,26,0.08);
+      align-items: start;
+    }
+    .credentials__group:last-child { border-bottom: 0; }
+    .credentials__cat {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(26px, 2.4vw, 34px);
+      color: #8E7A55;
+      letter-spacing: -0.01em;
+      padding-top: 4px;
+      line-height: 1;
+    }
+    .credentials__items {
+      display: flex;
+      flex-direction: column;
+    }
+    .credentials__items p {
+      padding: 14px 0;
+      border-top: 1px solid rgba(26,26,26,0.06);
+      font-family: var(--font);
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(26,26,26,0.7);
+      margin: 0;
+    }
+    .credentials__items p:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .credentials__items p:last-child { padding-bottom: 0; }
+    .credentials__items strong { color: var(--txt); font-weight: 500; }
+    .credentials__items em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: rgba(26,26,26,0.85);
+      font-weight: 500;
+    }
+    @media (max-width: 760px) {
+      .credentials__group {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 22px 0;
+      }
+      .credentials__cat {
+        font-size: 22px;
+        padding-top: 0;
+      }
+      .credentials__items p {
+        font-size: 13.5px;
+        padding: 12px 0;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       STAKES (E se non fai niente?) — light
+    ═══════════════════════════════════════ */
+    .stakes {
+      background: linear-gradient(180deg, var(--cream) 0%, #EDE9E0 50%, var(--cream) 100%);
+      padding: clamp(100px, 14vw, 180px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stakes::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(26,26,26,0.18), transparent);
+    }
+    .stakes::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(26,26,26,0.18), transparent);
+    }
+    .stakes__inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .stakes .section-label { color: rgba(26,26,26,0.5); }
+    .stakes__inner h2 {
+      font-family: var(--font);
+      font-size: clamp(30px, 4vw, 56px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--txt);
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+    }
+    .stakes__inner h2 em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      color: rgba(26,26,26,0.55);
+      display: block;
+      margin-top: 6px;
+      letter-spacing: 0;
+    }
+    .stakes__body {
+      text-align: left;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .stakes__body p {
+      font-family: var(--font);
+      font-size: clamp(15px, 1.2vw, 18px);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--txt2);
+      margin-bottom: 20px;
+    }
+    .stakes__body p strong { color: var(--txt); font-weight: 500; }
+    .stakes__conclusion {
+      margin-top: 40px !important;
+      padding-top: 32px;
+      border-top: 1px solid rgba(26,26,26,0.15);
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic !important;
+      font-size: clamp(20px, 2.1vw, 26px) !important;
+      color: var(--txt) !important;
+      line-height: 1.4 !important;
+    }
+    .stakes__conclusion strong {
+      font-style: normal;
+      font-family: var(--font);
+      color: #8E7A55 !important;
+      font-weight: 500 !important;
+    }
+    @media (max-width: 768px) {
+      .stakes { padding: clamp(70px, 10vw, 110px) 0; }
+      .stakes__inner h2 { font-size: clamp(24px, 6.5vw, 36px); margin-bottom: 32px; }
+      .stakes__body p { font-size: 14.5px; }
+      .stakes__conclusion { font-size: 18px !important; }
+    }
+
+    /* ═══════════════════════════════════════
+       TOWARDS (Cosa cambia, davvero) — dark, impactful grid
+    ═══════════════════════════════════════ */
+    .towards {
+      background: var(--dark);
+      padding: clamp(110px, 15vw, 200px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Aurora glow soft sullo sfondo */
+    .towards::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 20%, rgba(184,164,128,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 80%, rgba(184,164,128,0.05) 0%, transparent 55%);
+    }
+    .towards > .container { position: relative; z-index: 1; }
+    .towards .section-label { color: #B8A480; }
+    .towards__header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 72px;
+    }
+    .towards__header h2 {
+      font-family: var(--font);
+      font-size: clamp(30px, 4vw, 56px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--cream);
+      letter-spacing: -0.01em;
+    }
+    .towards__header h2 em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      color: #D4BC8E;
+      display: block;
+      margin-top: 6px;
+      letter-spacing: 0;
+    }
+    .towards__header p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(17px, 1.4vw, 20px);
+      color: rgba(245,240,235,0.55);
+      margin-top: 20px;
+      font-weight: 500;
+    }
+    .towards__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .towards__card {
+      position: relative;
+      background: linear-gradient(180deg, #1A1A1A 0%, #141312 100%);
+      border: 1px solid rgba(245,240,235,0.08);
+      border-radius: 18px;
+      padding: 40px 30px 36px;
+      text-align: left;
+      overflow: hidden;
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 0.55s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.45s,
+                  background 0.6s;
+    }
+    /* Linea verticale oro che cresce dal lato sx al hover */
+    .towards__card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, #D4BC8E 50%, transparent);
+      opacity: 0;
+      transform: scaleY(0.3);
+      transform-origin: center;
+      transition: opacity 0.5s, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    /* Aurora glow oro che pulsa al hover */
+    .towards__card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,164,128,0.15) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .towards__card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(212,188,142,0.5);
+      background: linear-gradient(180deg, #211F1C 0%, #161513 100%);
+      box-shadow:
+        0 32px 70px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(184,164,128,0.18),
+        0 0 60px rgba(184,164,128,0.10);
+    }
+    .towards__card:hover::before { opacity: 1; transform: scaleY(1); }
+    .towards__card:hover::after { opacity: 1; }
+    .towards__num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 42px;
+      line-height: 1;
+      color: #B8A480;
+      letter-spacing: 0.02em;
+      margin-bottom: 22px;
+      transition: color 0.4s, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      display: inline-block;
+    }
+    .towards__card:hover .towards__num {
+      color: #D4BC8E;
+      transform: translateY(-2px);
+    }
+    .towards__card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 2.6vw, 36px);
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(245,240,235,0.10);
+      letter-spacing: -0.01em;
+      transition: color 0.4s, border-color 0.4s;
+    }
+    .towards__card:hover h3 {
+      color: #D4BC8E;
+      border-bottom-color: rgba(212,188,142,0.30);
+    }
+    .towards__card p {
+      font-family: var(--font);
+      font-size: 14.5px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--cream-50);
+      margin: 0;
+    }
+    .towards__card p em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .towards__credit {
+      display: block;
+      margin-top: 14px;
+      font-family: var(--font);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      color: #B8A480;
+      font-style: normal;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    @media (max-width: 1024px) {
+      .towards__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .towards__grid { grid-template-columns: 1fr; gap: 16px; }
+      .towards { padding: clamp(80px, 12vw, 130px) 0; }
+      .towards__header { margin-bottom: 48px; }
+      .towards__header h2 { font-size: clamp(26px, 7vw, 38px); }
+      .towards__card { padding: 32px 26px 28px; border-radius: 14px; }
+      .towards__num { font-size: 36px; }
+      .towards__card h3 { font-size: 26px; }
+    }
+    /* Touch device — riduci hover transforms */
+    @media (hover: none) {
+      .towards__card:hover { transform: none; }
+      .towards__card:hover::before { opacity: 0; }
+      .towards__card:hover::after { opacity: 0; }
+    }
+
+    /* ═══════════════════════════════════════
+       COLOR SWAP — DIFF (light) ↔ METH (dark)
+    ═══════════════════════════════════════ */
+    /* DIFF — ora chiaro */
+    .diff { background: var(--cream); }
+    .diff .section-label { color: rgba(26,26,26,0.5); }
+    .diff__left h2 { color: var(--txt); }
+    .diff__left > p { color: var(--txt2); }
+    .diff__left > p strong { color: var(--txt); font-weight: 500; }
+    .diff__item { border-bottom-color: rgba(26,26,26,0.10); }
+    .diff__item:first-child { border-top-color: rgba(26,26,26,0.10); }
+    .diff__idx { color: rgba(26,26,26,0.35); }
+    .diff__item p { color: rgba(26,26,26,0.65); }
+    .diff__item p strong { color: var(--txt); font-weight: 500; }
+    .diff .btn-main {
+      color: var(--cream);
+      background: var(--black);
+      border-color: var(--black);
+    }
+    .diff .btn-main::before { background: var(--black); }
+    .diff .btn-main:hover { color: var(--black); background: transparent; border-color: var(--black); }
+
+    /* METH — ora scuro */
+    .meth { background: var(--dark); }
+    .meth .section-label { color: var(--cream-30) !important; }
+    .meth__hd h2 { color: var(--cream); }
+    .meth__hd .b-lg { color: var(--cream-50); }
+    .meth__hd .b-lg strong { color: var(--cream); font-weight: 500; }
+    .meth__q {
+      color: var(--cream-30);
+      border-left-color: rgba(184,164,128,0.4);
+    }
+    .meth__visual::after { border-color: rgba(245,240,235,0.10); }
+    .meth__step {
+      background: #1A1A1A;
+      border-color: rgba(245,240,235,0.06);
+    }
+    .meth__step:hover {
+      background: #211F1C;
+      border-color: var(--warm);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+    }
+    .meth__step:hover .meth__step-n { color: var(--cream); }
+    .meth__step:hover .meth__step-ico { background: var(--cream); border-color: var(--cream); }
+    .meth__step:hover .meth__step-ico svg { stroke: var(--black); }
+    .meth__step:hover h3 { color: #D4BC8E; }
+    .meth__step-n { color: #B8A480; }
+    .meth__step h3 { color: var(--cream); }
+    .meth__step p { color: var(--cream-50); }
+    .meth__step p strong { color: var(--cream); font-weight: 500; }
+    .meth__step-ico {
+      background: #0F0E0C;
+      border-color: rgba(184,164,128,0.35);
+    }
+    .meth__step-ico svg { stroke: #D4BC8E; }
+    .meth__g {
+      background: #1A1A1A;
+      border-color: rgba(245,240,235,0.08);
+    }
+    .meth__g-ico { border-color: rgba(184,164,128,0.5); }
+    .meth__g-ico svg { stroke: #D4BC8E; }
+    .meth__g h4 { color: var(--cream); }
+    .meth__g p { color: var(--cream-50); }
+    .meth__g p strong { color: var(--cream); font-weight: 500; }
+
     /* ── Reduced motion ── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1605,15 +2608,15 @@
     </video>
     <div class="hero__overlay"></div>
     <div class="hero__content">
-      <p class="hero__badge">Per chi ha già capito tutto — ma non è bastato</p>
+      <p class="hero__badge">Architettura Interiore</p>
       <h1 class="hero__title">
-        <span class="line-mask"><span class="line-inner">Sai esattamente</span></span>
-        <span class="line-mask"><span class="line-inner">cosa dovresti fare.</span></span>
-        <span class="line-mask"><span class="line-inner"><em>Eppure non riesci a farlo.</em></span></span>
+        <span class="line-mask"><span class="line-inner">Capire non</span></span>
+        <span class="line-mask"><span class="line-inner">mi ha cambiato.</span></span>
+        <span class="line-mask"><span class="line-inner"><em>Togliere sì.</em></span></span>
       </h1>
-      <p class="hero__sub">Non è mancanza di volontà. Non è pigrizia. È una struttura invisibile che decide al posto tuo — prima ancora che tu possa scegliere.</p>
+      <p class="hero__sub">Oggi smonto i blocchi interiori e le trappole della mente che ti tengono in ostaggio e ti fanno vivere in un modo che non senti tuo. Libero di sbloccare il tuo vero potenziale.</p>
       <div class="hero__cta-wrap">
-        <a href="#cta" class="btn-main magnetic"><span>Scopri se è il tuo momento</span> <span class="arrow">&#8594;</span></a>
+        <a href="#manifesto" class="btn-main magnetic"><span>Scopri se è il tuo momento</span> <span class="arrow">&#8594;</span></a>
       </div>
       <p class="hero__reading" style="display:none;"></p>
     </div>
@@ -1631,31 +2634,31 @@
         <video autoplay muted loop playsinline><source src="video_orlandotosi2.mp4" type="video/mp4"></video>
       </div>
       <div class="manifesto__slide" data-slide="0">
-        <span class="manifesto__label">Ti riconosci?</span>
-        <h2>Hai fatto tutto quello che dovevi.<br>Terapia. Libri. Corsi.</h2>
+        <span class="manifesto__label">Una domanda alla volta</span>
+        <h2>Rispondi mentalmente.<br><span class="manifesto__italic">Senti se è il tuo caso.</span></h2>
       </div>
       <div class="manifesto__slide" data-slide="1">
-        <h2>Hai capito molto di te stesso.</h2>
-        <h2 class="manifesto__italic">Eppure...</h2>
-      </div>
-      <div class="manifesto__slide" data-slide="2">
         <div class="manifesto__list">
-          <p>Hai letto i libri, fatto corsi, anche terapia. <strong>Ma il pattern è ancora lì.</strong></p>
-          <p>Reagire, chiuderti, esplodere. Sai cosa stai per fare. <strong>Ma non riesci a fermarti.</strong></p>
-          <p>Tensione cronica. Ansia senza motivo. <strong>Il corpo sta urlando qualcosa.</strong></p>
-          <p>Porti un peso addosso da anni. <strong>Non sai neanche più com'è stare senza.</strong></p>
-          <p>Non stai male. È peggio: <strong>reciti un ruolo che non hai mai scelto.</strong></p>
-          <p>Controlli tutto — emozioni, parole, sguardo. <strong>Per paura di essere giudicato.</strong></p>
-          <p>Qualsiasi cosa fai, <strong>non basta. Mai.</strong></p>
-          <p>La persona che gli altri vedono <strong>non sei più tu.</strong></p>
+          <p>Ti svegli <strong>stanco anche se hai dormito?</strong></p>
+          <p>Reagisci in modi che poi <strong>non riconosci come tuoi?</strong></p>
+          <p>Hai letto, fatto terapia, capito tutto di te. <strong>E niente cambia?</strong></p>
+          <p>Vivi in un modo che, in fondo, <strong>non senti tuo?</strong></p>
+          <p>Stai con chi ami e <strong>ti senti lontano?</strong></p>
+          <p>Ti critichi. Ti dici che non va mai bene niente. <strong>Che potevi fare meglio?</strong></p>
+          <p>Dici sì quando dentro <strong>vorresti dire no?</strong></p>
+          <p>Le cose che prima amavi <strong>adesso ti pesano?</strong></p>
         </div>
       </div>
+      <div class="manifesto__slide" data-slide="2">
+        <h2>Se hai detto sì almeno a una di queste,</h2>
+        <h2 class="manifesto__italic">quello che senti ha un nome.</h2>
+      </div>
       <div class="manifesto__slide" data-slide="3">
-        <h2>Non sei sbagliato.<br>Non sei rotto.</h2>
-        <p class="manifesto__body">Hai sviluppato strategie di sopravvivenza. Hanno funzionato — per un po'. Ma oggi quelle stesse strategie ti tengono prigioniero. <strong>Il problema non è chi sei. È la struttura invisibile che governa le tue reazioni.</strong></p>
+        <h2>Non sei rotto.<br>Non sei pigro. Non sei sbagliato.</h2>
+        <p class="manifesto__body">Quello che senti non viene da te. Viene da qualcosa che ti porti dentro da troppo tempo. Si è formato anni fa, per proteggerti. Per un po' ha funzionato. <strong>Adesso ti tiene fermo. Sta vivendo lui la tua vita al posto tuo.</strong></p>
       </div>
       <div class="manifesto__slide" data-slide="4">
-        <h2 class="manifesto__accent">E quella struttura<br>si può cambiare.</h2>
+        <h2 class="manifesto__accent">E si può togliere.</h2>
         <div class="manifesto__cta-wrap">
           <a href="#cta" class="btn-main btn-dark magnetic"><span>Scopri se è il tuo momento</span> <span class="arrow">&#8594;</span></a>
         </div>
@@ -1666,57 +2669,43 @@
   <!-- MARQUEE -->
   <div class="marquee-strip">
     <div class="marquee-strip__inner">
-      <span>Struttura</span><span>·</span><span>Frequenza</span><span>·</span><span>Risonanza</span><span>·</span><span>Cambiamento</span><span>·</span><span>Struttura</span><span>·</span><span>Frequenza</span><span>·</span><span>Risonanza</span><span>·</span><span>Cambiamento</span><span>·</span><span>Struttura</span><span>·</span><span>Frequenza</span><span>·</span><span>Risonanza</span><span>·</span><span>Cambiamento</span><span>·</span>
+      <span>Architettura</span><span>·</span><span>Sottrazione</span><span>·</span><span>Risonanza</span><span>·</span><span>Sblocco</span><span>·</span><span>Architettura</span><span>·</span><span>Sottrazione</span><span>·</span><span>Risonanza</span><span>·</span><span>Sblocco</span><span>·</span><span>Architettura</span><span>·</span><span>Sottrazione</span><span>·</span><span>Risonanza</span><span>·</span><span>Sblocco</span><span>·</span>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════
-       TRANSFORMATION (Il Passaggio)
+       DIFFERENTIATION
   ═══════════════════════════════════════ -->
-  <section class="transformation" id="transformation">
+  <section class="diff" id="diff">
     <div class="container">
-      <div class="tf-header">
-        <span class="section-label">Il passaggio</span>
-        <h2 class="tf-desk-title">Da dove sei oggi. A dove puoi arrivare.</h2>
-        <h2 class="tf-mob-title">Cosa ottieni con il percorso.</h2>
-        <p class="tf-sub">Ogni riga è un cambiamento reale. Misurato. Vissuto da chi ha fatto il percorso.</p>
-      </div>
-      <div class="tf-rows">
-        <div class="tf-row">
-          <div class="tf-num">01</div>
-          <div class="tf-from"><span><strong>Non essere mai abbastanza</strong> — qualunque cosa tu faccia</span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Svegliarti e <strong>sentirti a posto</strong> — senza dover dimostrare niente a nessuno</span></div>
+      <div class="diff__inner">
+        <div class="diff__left">
+          <span class="section-label">Dove si colloca RESONA</span>
+          <h2>Non è terapia.<br>Non è coaching.</h2>
+          <p>RESONA è un'altra cosa. Sta nel mezzo, dove gli altri non lavorano. <strong>La terapia ti aiuta a conoscerti. Il coaching ti dice cosa fare. RESONA toglie ciò che ti tiene fermo.</strong> Agisce sull'intera struttura interna: blocchi, trappole, pattern profondi. Otto livelli integrati insieme.</p>
+          <a href="#cta" class="btn-main magnetic"><span>Scopri se è il tuo momento</span> <span class="arrow">&#8594;</span></a>
         </div>
-        <div class="tf-row">
-          <div class="tf-num">02</div>
-          <div class="tf-from"><span><strong>Controllare tutto</strong> perché hai paura di quello che succede se molli</span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Leggero. Come se qualcosa che portavi dentro <strong>da anni finalmente non c'è più</strong></span></div>
-        </div>
-        <div class="tf-row">
-          <div class="tf-num">03</div>
-          <div class="tf-from"><span><strong>Ansia senza motivo.</strong> Tensione che non va via. <strong>Un corpo sempre in allerta</strong></span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Il corpo che si rilassa. Lo stress, le tensioni, <strong>il peso sulle spalle che se ne va</strong></span></div>
-        </div>
-        <div class="tf-row">
-          <div class="tf-num">04</div>
-          <div class="tf-from"><span>Sapere esattamente cosa dovresti fare — e <strong>non riuscire a farlo</strong></span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Libero di fare quello che hai sempre evitato — <strong>senza più quella voce che ti ferma</strong></span></div>
-        </div>
-        <div class="tf-row">
-          <div class="tf-num">05</div>
-          <div class="tf-from"><span>Recitare una versione di te che funziona fuori ma <strong>ti svuota dentro</strong></span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Tornare a <strong>riconoscerti</strong> — e sentire che la persona che vivi fuori è la stessa che senti dentro</span></div>
-        </div>
-        <div class="tf-row">
-          <div class="tf-num">06</div>
-          <div class="tf-from"><span>Ripeterti che ce la puoi fare — <strong>senza crederci mai davvero</strong></span></div>
-          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-          <div class="tf-to"><span>Sicuro di te — <strong>non perché te lo ripeti, ma perché lo senti davvero</strong></span></div>
+        <div class="diff__list">
+          <div class="diff__item">
+            <span class="diff__idx">01</span>
+            <p>Agisce sull'<strong>intera struttura interna</strong> — blocchi, trappole, pattern profondi</p>
+          </div>
+          <div class="diff__item">
+            <span class="diff__idx">02</span>
+            <p><strong>Otto livelli insieme</strong>: cognitivo, esperienziale, scritto, immaginativo, pratico, musicale, meditativo, energetico</p>
+          </div>
+          <div class="diff__item">
+            <span class="diff__idx">03</span>
+            <p><strong>Solo 1:1.</strong> Massimo 8 persone al mese. Direttamente con me.</p>
+          </div>
+          <div class="diff__item">
+            <span class="diff__idx">04</span>
+            <p>Risultati <strong>permanenti e misurabili</strong>. Non motivazione che dura due settimane.</p>
+          </div>
+          <div class="diff__item">
+            <span class="diff__idx">05</span>
+            <p><strong>Chiudiamo quando lo senti tu.</strong> Non prima. Non dopo. Lo decidi tu.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1729,74 +2718,173 @@
     <div class="meth__in">
       <div class="meth__top">
         <div class="meth__hd">
-          <span class="section-label">Il metodo</span>
-          <h2>Non lavoriamo su cosa vorresti cambiare.<br>Lavoriamo su cosa ti impedisce di farlo.</h2>
-          <p class="b-lg" style="margin-top:20px">Non è coaching. Non è terapia. Non è motivazione. È un intervento sulla parte di te che prende decisioni prima che tu possa scegliere — là dove la consapevolezza si ferma e il corpo prende il comando.</p>
-          <p class="meth__q">"Non si tratta di diventare qualcun altro. Ma di ritornare coerente con chi sei sempre stato."</p>
+          <span class="section-label">Come funziona, in pratica</span>
+          <h2>Tre fasi.<br>Il tempo che serve a te.</h2>
+          <p class="b-lg" style="margin-top:20px">Niente protocollo standard. Solo quello che serve a te. <strong>Lavoro su 8 livelli insieme.</strong> Cognitivo, esperienziale, scritto, immaginativo, pratico, musicale, meditativo, energetico. Non uno alla volta. Insieme.</p>
+          <p class="meth__q">"Non si tratta di diventare qualcun altro. Ma di togliere ciò che ti tiene lontano da chi sei sempre stato."</p>
         </div>
-        <div class="meth__visual"><img src="images/orli_portraits_12.jpg" alt="RESONA Method"></div>
+        <div class="meth__visual"><img src="images/5870837165829328090.jpg" alt="RESONA Method"></div>
       </div>
       <div class="meth__steps">
         <div class="meth__step">
           <div class="meth__step-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-          <div class="meth__step-n">Fase 01</div><h3>Mappatura</h3>
-          <p>Identifichiamo le aree di fragilità del tuo sistema. <strong>Dove il blocco agisce. Con quale intensità.</strong> Definiamo dove vuoi arrivare.</p>
+          <div class="meth__step-n">Fase 01 · Tempo iniziale</div><h3>Mappatura</h3>
+          <p><strong>Identifichiamo i nomi delle tue trappole mentali.</strong> Una mappatura interiore profonda attraverso il REM60: 60 domande su 12 dimensioni del tuo mondo interno. Esci con una mappa precisa di dove i blocchi vivono dentro di te.</p>
         </div>
         <div class="meth__step">
           <div class="meth__step-ico"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-          <div class="meth__step-n">Fase 02</div><h3>Ricostruzione</h3>
-          <p>Sessioni 1 to 1, calibrate su ciò che emerge. <strong>Non c'è un protocollo standard.</strong> C'è quello che serve a te, per quel blocco specifico.</p>
+          <div class="meth__step-n">Fase 02 · Il cuore del lavoro</div><h3>Sblocco</h3>
+          <p><strong>Sradichiamo i meccanismi di auto-sabotaggio</strong> con protocolli di riprogrammazione mentale ad alto impatto. Tecniche neuro-linguistiche, visualizzazioni evocative, pratiche esperienziali e RESONA beats. Il blocco si scioglie. Una sessione alla volta. Per sempre.</p>
         </div>
         <div class="meth__step">
           <div class="meth__step-ico"><svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg></div>
-          <div class="meth__step-n">Fase 03</div><h3>Integrazione</h3>
-          <p>Il nuovo assetto diventa stabile. <strong>Il percorso si chiude quando l'obiettivo è raggiunto</strong> — non prima.</p>
+          <div class="meth__step-n">Fase 03 · Tempo di assestamento</div><h3>Integrazione</h3>
+          <p><strong>Un protocollo d'azione su misura</strong> per portare il cambiamento nella tua vita di tutti i giorni. Verifiche nei contesti reali in cui i blocchi si attivavano. Quando regge nel reale, chiudiamo.</p>
         </div>
       </div>
       <div class="meth__g">
         <div class="meth__g-ico"><svg viewBox="0 0 24 24"><path d="M12 2L14.09 8.26L21 9.27L16 14.14L17.18 21.02L12 17.77L6.82 21.02L8 14.14L3 9.27L9.91 8.26L12 2Z" stroke-linejoin="round"/></svg></div>
-        <div><h4>Garanzia di risultato</h4><p>Il lavoro prosegue finché l'obiettivo non è raggiunto. Se serve più tempo, lo prendiamo. <strong>Senza costi aggiuntivi.</strong></p></div>
+        <div><h4>Chiudiamo quando lo senti tu</h4><p>Non prima. Non dopo. Non lo allungo per fatturare. Non lo chiudo per liberarmi. <strong>Lo decidi tu, perché lo senti tu.</strong></p></div>
       </div>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════
-       DIFFERENTIATION
+       TRANSFORMATION (Il Passaggio) — ARCHIVED per richiesta cliente
+       Sostituita dalla sezione .towards (8 card più sotto).
+       Mantenuta nel markup per recupero futuro: rimuovere display:none per riattivarla.
   ═══════════════════════════════════════ -->
-  <section class="diff" id="diff">
+  <section class="transformation" id="transformation" style="display:none">
     <div class="container">
-      <div class="diff__inner">
-        <div class="diff__left">
-          <span class="section-label">Perché è diverso</span>
-          <h2>Hai già provato altre strade.<br>Ecco perché non hanno funzionato.</h2>
-          <p>Ogni percorso che hai fatto lavorava sulla parte di te che già capisce. Ti spiegavano perché fai quello che fai. Ti facevano parlare — per settimane, mesi, a volte anni — spesso senza una direzione chiara. Ti davano strumenti per gestire i sintomi. Ma dopo mesi, la sensazione era la stessa: <strong>nessun click reale, nessun cambiamento che potevi toccare con mano.</strong></p>
-          <a href="#cta" class="btn-main magnetic"><span>Scopri se è il tuo momento</span> <span class="arrow">&#8594;</span></a>
+      <div class="tf-header">
+        <span class="section-label">Cosa cambia, davvero</span>
+        <h2 class="tf-desk-title">Non sono obiettivi da raggiungere. <em class="tf-em">Sono stati che torni a sentire.</em></h2>
+        <h2 class="tf-mob-title">Stati che torni a sentire.</h2>
+        <p class="tf-sub">Sei cose che chi fa questo lavoro ritrova. Una alla volta. Per sempre.</p>
+      </div>
+      <div class="tf-cols-label" aria-hidden="true">
+        <span class="tf-col tf-col--from">Prima</span>
+        <span class="tf-col-divider"></span>
+        <span class="tf-col tf-col--to">Dopo</span>
+      </div>
+      <div class="tf-rows">
+        <div class="tf-row">
+          <div class="tf-num">01</div>
+          <div class="tf-from"><span>La testa che non si ferma. Le reazioni che <strong>non controlli</strong>. Il peso che porti senza sapere perché.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Libertà.</strong> Libero davvero — non perché te lo dici.</span></div>
         </div>
-        <div class="diff__list">
-          <div class="diff__item">
-            <span class="diff__idx">01</span>
-            <p>Interviene dove la consapevolezza si ferma, non sui sintomi — <strong>nella struttura</strong></p>
-          </div>
-          <div class="diff__item">
-            <span class="diff__idx">02</span>
-            <p><strong>Cambiamento stabile</strong> — non motivazione che dura due settimane</p>
-          </div>
-          <div class="diff__item">
-            <span class="diff__idx">03</span>
-            <p><strong>6–9 settimane.</strong> Non anni. Non "vedremo"</p>
-          </div>
-          <div class="diff__item">
-            <span class="diff__idx">04</span>
-            <p>Risultati <strong>misurabili e verificabili</strong>. Li senti nel corpo. Li vedono le persone intorno a te.</p>
-          </div>
-          <div class="diff__item">
-            <span class="diff__idx">05</span>
-            <p><strong>Garanzia di risultato.</strong> Il lavoro prosegue finché l'obiettivo non è raggiunto</p>
-          </div>
+        <div class="tf-row">
+          <div class="tf-num">02</div>
+          <div class="tf-from"><span>Non sapere più chi sei. Riconoscerti meno in <strong>quello che senti, dici, fai</strong>.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Te stesso.</strong> "Mi sento come ero da bambino, con la consapevolezza di adesso."</span></div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">03</div>
+          <div class="tf-from"><span>Vivere una vita che <strong>non senti tua</strong>. Sentirti perso, senza una rotta.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Direzione.</strong> Sai dove vai — lo senti nel corpo prima ancora che nella testa.</span></div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">04</div>
+          <div class="tf-from"><span>Nebbia. Confusione. <strong>Non sapere cosa vuoi davvero</strong>.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Chiarezza cristallina.</strong> Vedi chi sei. Vedi cosa vuoi.</span></div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">05</div>
+          <div class="tf-from"><span>Il corpo sempre in allerta. <strong>Nodo nel petto, mascella tesa</strong>, ansia di fondo.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Calma.</strong> Il corpo si scioglie. Se ne vanno. Una sessione alla volta.</span></div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">06</div>
+          <div class="tf-from"><span>Evitare. <strong>Procrastinare quello che conta</strong>. Non scegliere mai davvero.</span></div>
+          <div class="tf-arrow"><span class="tf-arrow-dot"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+          <div class="tf-to"><span><strong>Coraggio.</strong> Per scegliere quello che vuoi davvero. Per stare nella tua vita. Fino in fondo.</span></div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══════════════════════════════════════
+       STAKES — E se non fai niente?
+  ═══════════════════════════════════════ -->
+  <section class="stakes" id="stakes">
+    <div class="container">
+      <div class="stakes__inner">
+        <span class="section-label">E se non fai niente?</span>
+        <h2>Continui così. <em>Per altri 5 anni. 10 anni.</em></h2>
+        <div class="stakes__body">
+          <p>Quella vita che non senti tua continua. Non peggiora. <strong>Resta uguale.</strong></p>
+          <p>Continui a leggere libri, fare corsi, capire pattern. Sei sempre più consapevole. Sempre uguale.</p>
+          <p>Il peso al risveglio resta. La voce in testa resta. La sensazione di vivere dietro un vetro resta.</p>
+          <p>La palestra resta un peso. Il progetto resta al 60%. Le persone che ami restano dietro un vetro.</p>
+          <p class="stakes__conclusion">
+            <strong>Non c'è una crisi. C'è un'usura lenta.</strong><br>
+            È quella che fa più danni.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       TOWARDS — Cosa cambia, davvero
+  ═══════════════════════════════════════ -->
+  <section class="towards" id="towards">
+    <div class="container">
+      <div class="towards__header">
+        <span class="section-label">Cosa cambia, davvero</span>
+        <h2>Non sono obiettivi da raggiungere. <em>Sono stati che torni a sentire.</em></h2>
+        <p>Otto cose che chi fa questo lavoro ritrova. Una alla volta. Per sempre.</p>
+      </div>
+      <div class="towards__grid">
+        <div class="towards__card">
+          <div class="towards__num">01</div>
+          <h3>Libertà</h3>
+          <p>Dalla testa che non si ferma. Dalle reazioni che non controlli. Dal peso che porti senza sapere perché. <em>Libero davvero. Non perché te lo dici.</em></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">02</div>
+          <h3>Te stesso</h3>
+          <p>Quello che eri prima di tutto questo. <em>"Mi sento come ero da bambino, con la consapevolezza di adesso."</em><span class="towards__credit">Valerio, ingegnere, 32</span></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">03</div>
+          <h3>Direzione</h3>
+          <p>Smetti di sentire che vivi una vita che non è tua. Sai dove vai. <em>Lo senti nel corpo prima ancora che nella testa.</em></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">04</div>
+          <h3>Chiarezza</h3>
+          <p>La nebbia se ne va. Vedi chi sei. Vedi cosa vuoi. <em>"Una chiarezza cristallina."</em><span class="towards__credit">Asia, libera professionista, 26</span></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">05</div>
+          <h3>Creatività</h3>
+          <p>Quello che ti bloccava dal fare, dal dire, dal provare non ti blocca più. <em>Le idee tornano. L'energia torna.</em></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">06</div>
+          <h3>Calma</h3>
+          <p>Il corpo si scioglie. Il nodo nel petto, la mascella tesa, l'allerta costante. <em>Se ne vanno. Una sessione alla volta.</em></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">07</div>
+          <h3>Equilibrio</h3>
+          <p>Né performante né disfatto. <em>Centrato. Sei lì. In te.</em></p>
+        </div>
+        <div class="towards__card">
+          <div class="towards__num">08</div>
+          <h3>Coraggio</h3>
+          <p>Per affrontare quello che evitavi. Per scegliere quello che vuoi davvero. <em>Per stare nella tua vita. Fino in fondo.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- ═══════════════════════════════════════
        TESTIMONIALS
@@ -1804,9 +2892,9 @@
   <section class="testimonials" id="testimonials">
     <div class="container">
       <div class="testimonials__header">
-        <span class="section-label">Trasformazioni reali</span>
-        <h2>Non sono casi fortunati.<br>Sono persone che hanno fatto il lavoro.</h2>
-        <p class="quote">"Qual è la cosa che è cambiata di più in te da quando abbiamo iniziato a lavorare insieme?"</p>
+        <span class="section-label">Quello che dicono</span>
+        <h2>Non casi fortunati.<br>Persone che hanno fatto il lavoro.</h2>
+        <p class="quote">"Ho chiesto a ognuno la stessa cosa: cosa è cambiato in te?"</p>
       </div>
     </div>
     <div class="video-marquee" id="videoMarquee">
@@ -1855,16 +2943,16 @@
     <div class="container">
       <div class="stats__row">
         <div class="stat-big">
-          <span class="stat-big__number" data-target="48">0</span><span class="stat-big__symbol">%</span>
-          <p class="stat-big__label">Riduzione media<br>delle aree di fragilità</p>
+          <span class="stat-big__number">1:1</span>
+          <p class="stat-big__label">Solo 1 to 1.<br>Direttamente con me.</p>
         </div>
         <div class="stat-big">
-          <span class="stat-big__number" data-target="50">0</span><span class="stat-big__symbol">%</span>
-          <p class="stat-big__label">Miglioramento capacità<br>di regolazione</p>
+          <span class="stat-big__number">8</span><span class="stat-big__symbol">/mese</span>
+          <p class="stat-big__label">Massimo 8 persone.<br>Quando è pieno, è pieno.</p>
         </div>
         <div class="stat-big">
-          <span class="stat-big__number">6-9</span><span class="stat-big__symbol"></span>
-          <p class="stat-big__label">Settimane durata tipica<br>del percorso</p>
+          <span class="stat-big__number">Lug</span><span class="stat-big__symbol">'26</span>
+          <p class="stat-big__label">Prossimi posti disponibili.<br>Apro la lista in chiamata.</p>
         </div>
       </div>
     </div>
@@ -1877,27 +2965,53 @@
     <div class="container">
       <div class="about__inner">
         <div class="about__image-container">
-          <img src="images/orli_portraits_12.jpg" alt="Orlando Stefano Tosi" class="about__image">
+          <img src="images/5870837165829328089.jpg" alt="Orlando Stefano Tosi" class="about__image">
         </div>
         <div class="about__right">
-          <span class="section-label">Chi c'è dietro RESONA</span>
-          <h2>Ho vissuto quello che vivi tu.</h2>
-          <p>Avevo i miei blocchi. I pattern che si ripetevano. <strong>L'ansia. Le tensioni.</strong> La sensazione di <strong>sapere esattamente cosa fare — e non riuscire a farlo</strong>. Di funzionare fuori e sentirmi estraneo dentro.</p>
-          <p>Ho cercato risposte dove tutti cercano: libri, percorsi, comprensione. <strong>L'intelligenza non bastava.</strong> Serviva un intervento diverso — in un posto diverso.</p>
-          <p>L'ho trovato. E oggi è quello che offro agli altri. <strong>Un lavoro concreto, sulla struttura che tiene in piedi i tuoi blocchi.</strong></p>
+          <span class="section-label">Chi parla</span>
+          <h2>Orlando Stefano Tosi.<br>Inner Architect · Coach · Sound Designer</h2>
+          <p>Avevo i tuoi stessi problemi. Per anni mi sono sentito bloccato. Mi sabotavo nelle relazioni, nel lavoro, nella vita. <strong>Ho provato tutto.</strong></p>
+          <p>Vengo dal mondo della notte. Per anni ho suonato nei più grandi club europei e internazionali. Ho lavorato dentro il mondo della perdizione, degli eccessi, della vita che inizia quando gli altri vanno a dormire. Ho costruito una carriera, ottenuto risultati. <strong>Eppure dentro c'era sempre quel peso che non andava via.</strong></p>
+          <p>Ho letto. Ho fatto terapia. Ho fatto corsi. Ero più consapevole. Ma uguale. Allora ho iniziato a sperimentare su di me. <strong>Ogni strumento che oggi propongo ai miei clienti l'ho prima testato su me stesso, per anni.</strong> Solo dopo l'ho studiato. Certificato. Capito a fondo. E reso parte del metodo.</p>
+          <p>Da quel percorso è nato RESONA Method. <strong>Lavoro su schemi ricorrenti, pattern di autosabotaggio e blocchi emotivi. Per sottrazione, non per addizione.</strong> Su tutti i livelli insieme.</p>
+          <div class="about__work">
+            <h4>Come lavoro</h4>
+            <p>Lavoro <strong>1:1 con un massimo di 8 persone al mese. Da Roma.</strong> Ogni percorso è seguito direttamente da me. Non delego. Non scalo. Perché questo lavoro richiede presenza totale.</p>
+          </div>
         </div>
       </div>
-      <div class="about__work">
-        <h4>Come lavoro</h4>
-        <p>Lavoro esclusivamente <strong>1 to 1</strong>. Ogni percorso è seguito <strong>direttamente da me</strong>. Non delego. Non scalo. Perché questo lavoro richiede presenza totale.</p>
-      </div>
-      <div class="about__tags">
-        <span class="about__tag">Laurea in Arti Multimediali e Sound Design</span>
-        <span class="about__tag">Master in Coaching — Unimercatorum</span>
-        <span class="about__tag">PNL Practitioner — Richard Bandler</span>
-        <span class="about__tag">Mindset Coaching — Stefano Santori Training</span>
-        <span class="about__tag">Tecniche somatiche e regolazione del sistema nervoso</span>
-        <span class="about__tag">Formazione continua</span>
+      <div class="credentials">
+        <span class="section-label credentials__label">Formazione &amp; Certificazioni</span>
+
+        <div class="credentials__group">
+          <div class="credentials__cat">Mente</div>
+          <div class="credentials__items">
+            <p><strong>Licensed Practitioner of Neuro-Linguistic Programming®</strong> · The Society of NLP™, certificato direttamente da <em>Dr. Richard Bandler, fondatore della disciplina</em></p>
+            <p><strong>Mindset Coach</strong> · Stefano Santori Academy, uno dei mindset coach più autorevoli d'Europa</p>
+          </div>
+        </div>
+
+        <div class="credentials__group">
+          <div class="credentials__cat">Struttura</div>
+          <div class="credentials__items">
+            <p><strong>Master in Coaching</strong> · Universitas Mercatorum, sostenuta dal sistema delle Camere di Commercio italiane, riconosciuta dal MIUR</p>
+          </div>
+        </div>
+
+        <div class="credentials__group">
+          <div class="credentials__cat">Corpo</div>
+          <div class="credentials__items">
+            <p><strong>Pranic Healer Certificato</strong> · Institute for Inner Studies, fondato da <em>Master Choa Kok Sui, padre del Pranic Healing moderno</em></p>
+            <p><strong>AD UNUM Experience Energy Healing Facilitator</strong> · Reconnective Academy International, con Guglielmo Poli</p>
+          </div>
+        </div>
+
+        <div class="credentials__group">
+          <div class="credentials__cat">Suono</div>
+          <div class="credentials__items">
+            <p><strong>Laurea in Sound Design e Arti Multimediali</strong>, il lavoro sulla risonanza nasce qui</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1908,25 +3022,25 @@
   <section class="faq" id="faq">
     <div class="container">
       <div class="faq__header">
-        <span class="section-label" style="color:var(--cream-30)">Domande frequenti</span>
-        <h2>Forse stai pensando...</h2>
+        <span class="section-label" style="color:var(--cream-30)">Domande che mi fanno tutti</span>
+        <h2>Quello che probabilmente ti stai chiedendo.</h2>
       </div>
       <div class="faq__list">
         <div class="faq__item" onclick="this.classList.toggle('open')">
-          <div class="faq__q">"Ho già provato troppi percorsi. Perché questo dovrebbe essere diverso?"</div>
-          <div class="faq__a"><p>Perché ogni percorso che hai fatto lavorava sulla parte di te che già capisce. Ti spiegavano perché fai quello che fai. Ti davano strumenti per gestirlo. Ma <strong>nessuno ha toccato la struttura che decide prima di te</strong> — nel corpo, nel sistema nervoso, nelle reazioni automatiche. Ecco perché sai tutto e non cambia niente: il problema non è nella stanza dove hai sempre cercato.</p></div>
+          <div class="faq__q">Ho già provato di tutto. Perché questo dovrebbe funzionare?</div>
+          <div class="faq__a"><p>Perché tutto quello che hai provato finora ti spiegava il problema. Ti dava strumenti per gestirlo, per pensarlo, per capirlo meglio. <strong>Ma il problema non sta nella testa.</strong> Sta in qualcosa che ti porti dentro, che reagisce prima che la testa possa intervenire. Lavoro lì. Per questo cambia qualcosa.</p></div>
         </div>
         <div class="faq__item" onclick="this.classList.toggle('open')">
-          <div class="faq__q">"Non sono sicuro di aver bisogno di un percorso. Forse è solo un periodo."</div>
-          <div class="faq__a"><p>Forse sì. Ma i periodi passano. Se questa sensazione di essere fuori posto è qui da più tempo di quanto vorresti ammettere — se sotto la performance c'è un vuoto che non si riempie con il prossimo traguardo — <strong>non è un periodo</strong>. È qualcosa di più profondo che chiede di essere visto. La call esiste per capire insieme quale delle due cose è. Nessuna pressione. Solo chiarezza.</p></div>
+          <div class="faq__q">Non sono sicuro di averne bisogno. Magari è solo un periodo.</div>
+          <div class="faq__a"><p>I periodi passano da soli. Se questa sensazione è qui <strong>da più tempo di quanto vorresti ammettere</strong>, non è un periodo. È qualcosa di più profondo. La chiamata serve a capire quale delle due.</p></div>
         </div>
         <div class="faq__item" onclick="this.classList.toggle('open')">
-          <div class="faq__q">"Come faccio a sapere se questo lavoro è adatto al mio problema specifico?"</div>
-          <div class="faq__a"><p>Nella call di valutazione mappiamo insieme la tua situazione: i sintomi, da quanto tempo ci sono, cosa hai già provato. Se RESONA è lo strumento giusto, lo vedrai dalla precisione con cui il tuo schema prende forma durante la conversazione. <strong>Se non lo è, te lo dico io.</strong> Non prendo persone per cui il metodo non è adatto. Mai.</p></div>
+          <div class="faq__q">Come fai a sapere se sono adatto al tuo metodo?</div>
+          <div class="faq__a"><p>In chiamata. Ti faccio domande, ascolto come parli, vedo cosa salta fuori. Se sei adatto, ne parliamo. <strong>Se non lo sei, te lo dico subito.</strong> Non prendo persone per cui questo lavoro non funziona. Mai.</p></div>
         </div>
         <div class="faq__item" onclick="this.classList.toggle('open')">
-          <div class="faq__q">"E se scopro che il problema sono davvero io?"</div>
-          <div class="faq__a"><p>Questa è la paura che tiene bloccate più persone di qualunque altra. La paura che guardando davvero dentro, troverai qualcosa di sbagliato. Di irreparabile. Ma è proprio il contrario: chi ha il coraggio di arrivare fin qui scopre che <strong>sotto i blocchi, sotto le difese, sotto la vergogna — c'è qualcuno che funziona</strong>. Qualcuno che è sempre stato lì. E che aspetta solo di smettere di combattere contro se stesso.</p></div>
+          <div class="faq__q">E se scopro che il problema sono io?</div>
+          <div class="faq__a"><p>È la paura più comune di tutte. Ma è l'opposto: chi arriva a guardare davvero scopre che <strong>sotto tutto quello che senti adesso, c'è qualcuno che funziona.</strong> È sempre stato lì. Aspetta solo di smettere di nascondersi.</p></div>
         </div>
       </div>
     </div>
@@ -1937,39 +3051,47 @@
   ═══════════════════════════════════════ -->
   <section class="cta-final" id="cta">
     <canvas id="ctaCanvas"></canvas>
+    <div class="cta-final__glow" aria-hidden="true"></div>
     <div class="container">
       <div class="cta-final__inner">
-        <h2>Se sei arrivato fin qui, sai già che è il momento.</h2>
-        <p>Una conversazione per capire insieme se RESONA è lo strumento giusto per te — adesso. Non è una consulenza gratuita. Non è una call di vendita. È il momento in cui la tua situazione prende forma — e capisci se c'è qualcosa su cui lavorare, o se basta aspettare.</p>
+        <span class="cta-final__eyebrow"><span class="cta-final__eyebrow-line"></span>Ultimo passo</span>
+        <h2>Se sei arrivato fino a qui, <em class="cta-em">qualcosa dentro lo sta chiedendo.</em></h2>
+        <p>Lasciami il tuo numero. Ti chiamo io. Mezz'ora. Niente vendita. Niente domande imbarazzanti. Parliamo. Mi racconti. <strong>Capiamo insieme se è il tuo momento.</strong> Se non lo è, te lo dico io. Subito. Senza giri.</p>
         <form class="cta-form" id="resonaForm">
           <div class="cta-form__row">
             <div class="cta-form__group">
               <label>Nome *</label>
-              <input type="text" id="fNome" required>
+              <input type="text" id="fNome" placeholder="Il tuo nome" required>
             </div>
-            <div class="cta-form__group">
-              <label>Cognome *</label>
-              <input type="text" id="fCognome" required>
-            </div>
-          </div>
-          <div class="cta-form__row">
             <div class="cta-form__group">
               <label>Email *</label>
-              <input type="email" id="fEmail" required>
+              <input type="email" id="fEmail" placeholder="tu@email.com" required>
             </div>
+          </div>
+          <div class="cta-form__row cta-form__row--single">
             <div class="cta-form__group">
               <label>Telefono *</label>
-              <input type="tel" id="fTel" required>
+              <input type="tel" id="fTel" placeholder="Numero per chiamarti" required>
             </div>
           </div>
-          <div class="cta-form__group" style="margin-bottom:24px">
-            <label>Messaggio</label>
-            <textarea class="cta-form__textarea" id="fMessaggio" rows="4" placeholder="Scrivi qui il tuo messaggio..."></textarea>
+          <div class="cta-form__row cta-form__row--single">
+            <div class="cta-form__group">
+              <label>In una frase, cosa ti porta qui? *</label>
+              <textarea id="fMsgFree" class="cta-form__textarea" placeholder="Quello che senti, in poche parole..." required></textarea>
+            </div>
           </div>
-          <button class="cta-form__submit" id="fBtn" type="submit">Richiedi la call di valutazione</button>
-          <p id="fMsg" style="text-align:center;margin-top:16px;font-size:13px;color:var(--cream-30);display:none"></p>
+          <label class="cta-form__gdpr">
+            <input type="checkbox" id="fGdpr" required>
+            <span>Acconsento a essere contattato da Orlando Tosi per una conversazione di valutazione. I miei dati sono trattati secondo la <a href="#" target="_blank">Privacy Policy</a>.</span>
+          </label>
+          <button class="cta-form__submit" id="fBtn" type="submit">
+            <span class="cta-form__submit-text">Mandami il numero</span>
+            <svg class="cta-form__submit-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="cta-form__note">Ti chiamo io entro 24 ore. Niente call center. Niente bot. Solo io.</p>
+          <p id="fMsg" style="text-align:center;margin-top:16px;font-size:13px;color:rgba(184,80,60,0.85);display:none"></p>
         </form>
-        <p class="cta-final__quote">"Se hai capito tutto ma niente si muove — il problema non è cosa sai. È dove stai cercando."</p>
+        <p class="cta-final__quote">"Non sei rotto. Non sei pigro. C'è qualcosa dentro che decide per te. E si può togliere."</p>
       </div>
     </div>
   </section>
@@ -2085,7 +3207,7 @@
           trigger: '.manifesto',
           pin: '.manifesto__pin',
           start: 'top top',
-          end: mob ? '+=350%' : '+=500%',
+          end: mob ? '+=320%' : '+=500%',
           scrub: mob ? 0.5 : 0.8,
           anticipatePin: 1
         }
@@ -2168,17 +3290,21 @@
       });
     });
 
-    /* ─── ABOUT — Clip-path reveal ─── */
-    gsap.to('.about__image-container', {
-      clipPath: 'circle(75% at 50% 50%)',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.about',
-        start: 'top 65%',
-        end: 'top 15%',
-        scrub: true
-      }
-    });
+    /* ─── ABOUT — Clip-path reveal (solo desktop) ─── */
+    if (window.innerWidth > 768) {
+      gsap.to('.about__image-container', {
+        clipPath: 'circle(75% at 50% 50%)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.about',
+          start: 'top 65%',
+          end: 'top 15%',
+          scrub: true
+        }
+      });
+    } else {
+      gsap.set('.about__image-container', { clipPath: 'none' });
+    }
     gsap.from('.about__right', {
       opacity: 0, y: 50, duration: 1,
       scrollTrigger: { trigger: '.about__right', start: 'top 70%' }
@@ -2191,12 +3317,27 @@
     });
 
     /* ─── CTA FINAL ─── */
-    gsap.from('.cta-final__inner h2', {
-      opacity: 0, y: 40, duration: 1,
+    var ctaTl = gsap.timeline({
       scrollTrigger: { trigger: '.cta-final__inner', start: 'top 75%' }
     });
+    ctaTl
+      .from('.cta-final__eyebrow', { opacity: 0, y: 14, duration: 0.7, ease: 'power2.out' })
+      .from('.cta-final__inner h2', { opacity: 0, y: 36, duration: 0.95, ease: 'power3.out' }, '-=0.3')
+      .from('.cta-final__inner h2 .cta-em', { opacity: 0, x: 16, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+      .from('.cta-final__inner > p', { opacity: 0, y: 22, duration: 0.7, ease: 'power2.out' }, '-=0.55');
+
     gsap.from('.cta-form', {
-      opacity: 0, scale: 0.96, y: 30, duration: 1,
+      opacity: 0, scale: 0.96, y: 30, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.cta-form', start: 'top 80%' }
+    });
+    gsap.utils.toArray('.cta-form__group').forEach(function(group, i) {
+      gsap.from(group, {
+        opacity: 0, y: 18, duration: 0.6, delay: 0.2 + i * 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '.cta-form', start: 'top 80%' }
+      });
+    });
+    gsap.from('.cta-form__submit', {
+      opacity: 0, y: 24, duration: 0.7, delay: 0.7, ease: 'power3.out',
       scrollTrigger: { trigger: '.cta-form', start: 'top 80%' }
     });
     gsap.from('.cta-final__quote', {
@@ -2216,6 +3357,30 @@
       });
     });
 
+    /* ─── STAKES REVEALS ─── */
+    gsap.from('.stakes__inner > .section-label, .stakes__inner > h2', {
+      opacity: 0, y: 30, duration: 0.9, stagger: 0.15,
+      scrollTrigger: { trigger: '.stakes', start: 'top 75%' }
+    });
+    gsap.utils.toArray('.stakes__body p').forEach(function(p, i) {
+      gsap.from(p, {
+        opacity: 0, y: 20, duration: 0.7, delay: i * 0.08,
+        scrollTrigger: { trigger: p, start: 'top 88%' }
+      });
+    });
+
+    /* ─── TOWARDS REVEALS ─── */
+    gsap.from('.towards__header', {
+      opacity: 0, y: 40, duration: 1,
+      scrollTrigger: { trigger: '.towards__header', start: 'top 80%' }
+    });
+    gsap.utils.toArray('.towards__card').forEach(function(card, i) {
+      gsap.from(card, {
+        opacity: 0, y: 30, duration: 0.7, delay: (i % 4) * 0.08,
+        scrollTrigger: { trigger: card, start: 'top 90%' }
+      });
+    });
+
     /* ─── FAQ REVEALS ─── */
     gsap.from('.faq__header', {
       opacity: 0, y: 40, duration: 1,
@@ -2230,6 +3395,8 @@
 
     /* ─── FORM → GOOGLE SHEETS ─── */
     (function() {
+      // Sostituire ENDPOINT quando il cliente fornirà lo Sheet definitivo.
+      // Campi inviati: nome, email, telefono, messaggio
       var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxYMl1Ix7YoPMBxCtzSwu0U4eYAP_ktcIPH8bRo3X4DWZd0gc76YHUV8kmuTLQLlLws/exec';
       var form = document.getElementById('resonaForm');
       var btn = document.getElementById('fBtn');
@@ -2238,33 +3405,34 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var nome = document.getElementById('fNome').value.trim();
-        var cognome = document.getElementById('fCognome').value.trim();
         var email = document.getElementById('fEmail').value.trim();
         var tel = document.getElementById('fTel').value.trim();
-        var messaggio = document.getElementById('fMessaggio').value.trim();
-        if (!nome || !cognome || !email || !tel) {
-          msg.textContent = 'Compila tutti i campi obbligatori.';
-          msg.style.color = 'rgba(255,100,100,0.7)';
+        var messaggio = document.getElementById('fMsgFree').value.trim();
+        var gdpr = document.getElementById('fGdpr').checked;
+        if (!nome || !email || !tel || !messaggio || !gdpr) {
+          msg.textContent = 'Completa tutti i campi e accetta il trattamento dei dati.';
+          msg.style.color = 'rgba(184,80,60,0.85)';
           msg.style.display = 'block';
-          setTimeout(function() { msg.style.display = 'none'; }, 4000);
+          setTimeout(function() { msg.style.display = 'none'; }, 4500);
           return;
         }
         btn.disabled = true;
-        btn.textContent = 'Invio in corso...';
+        var btnText = btn.querySelector('.cta-form__submit-text');
+        if (btnText) btnText.textContent = 'Invio in corso...';
         btn.style.opacity = '0.6';
         fetch(ENDPOINT, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome: nome, cognome: cognome, email: email, telefono: tel, messaggio: messaggio })
+          body: JSON.stringify({ nome: nome, email: email, telefono: tel, messaggio: messaggio })
         }).then(function() {
           window.location.href = 'thankyou.html';
         }).catch(function() {
           msg.textContent = 'Errore di invio. Riprova o scrivimi su Instagram.';
-          msg.style.color = 'rgba(255,100,100,0.7)';
+          msg.style.color = 'rgba(184,80,60,0.85)';
           msg.style.display = 'block';
           btn.disabled = false;
-          btn.textContent = 'Richiedi la call di valutazione';
+          if (btnText) btnText.textContent = 'Mandami il numero';
           btn.style.opacity = '1';
         });
       });
@@ -2277,7 +3445,7 @@
       var dot = document.querySelector('.cursor-dot');
       var mx = 0, my = 0, cx = 0, cy = 0, dx = 0, dy = 0;
 
-      var lightSelectors = '.manifesto, .meth, .stats, .about, .testimonials, .transformation, .marquee-strip, .cta-form, .preloader';
+      var lightSelectors = '.manifesto, .diff, .stakes, .stats, .about, .testimonials, .transformation, .marquee-strip, .cta-form, .preloader';
       document.addEventListener('mousemove', function(e) {
         mx = e.clientX; my = e.clientY;
         var el = document.elementFromPoint(mx, my);
