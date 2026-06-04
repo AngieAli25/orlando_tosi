@@ -2143,9 +2143,9 @@
       /* Hero */
       .hero { min-height: 100svh; }
       .hero__content { padding: 0 20px; }
-      .hero__badge { margin-bottom: 24px; font-size: 9px; letter-spacing: 2px; }
-      .hero__title { font-size: clamp(36px, 11vw, 56px); margin-bottom: 20px; line-height: 1.08; font-weight: 600; }
-      .hero__sub { font-size: 14px; margin-bottom: 32px; line-height: 1.75; max-width: 100%; }
+      .hero__badge { margin-bottom: 22px; font-size: 10px; letter-spacing: 2.5px; }
+      .hero__title { font-size: clamp(44px, 13.5vw, 66px); margin-bottom: 22px; line-height: 1.02; letter-spacing: -0.025em; font-weight: 700; }
+      .hero__sub { font-size: 16px; margin-bottom: 32px; line-height: 1.6; max-width: 340px; }
       .hero__reading { font-size: 11px; margin-top: 28px; }
       .hero__scroll { bottom: 24px; }
       .hero__scroll-line { height: 32px; }
@@ -3867,20 +3867,23 @@
       // MOBILE: niente pin (9 domande non entrano in una schermata).
       // Ma le slide e le domande appaiono con animazione marcata mentre scorri.
       if (mob) {
+        // Il contenuto resta SEMPRE visibile (niente opacity:0 che lascerebbe la
+        // sezione vuota mentre scorri): entrata morbida con solo un leggero
+        // scivolamento verso l'alto, innescata appena lo slide entra in viewport.
         gsap.set('.manifesto__slide', { opacity: 1, clearProps: 'transform' });
         slides.forEach(function(s) {
           var inner = s.querySelectorAll('h2, .manifesto__label, .manifesto__body, .manifesto__bridge, .manifesto__scroll-hint, .manifesto__accent, .manifesto__cta-wrap');
           if (inner.length) {
-            gsap.fromTo(inner, { opacity: 0, y: 36 }, {
-              opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-              scrollTrigger: { trigger: s, start: 'top 82%' }
+            gsap.from(inner, {
+              y: 28, duration: 0.7, stagger: 0.08, ease: 'power3.out',
+              scrollTrigger: { trigger: s, start: 'top 92%', once: true }
             });
           }
         });
-        // Le domande appaiono una a una (era questo l'effetto che si vedeva)
-        gsap.fromTo('.manifesto__list p', { opacity: 0, y: 24 }, {
-          opacity: 1, y: 0, duration: 0.55, stagger: 0.1, ease: 'power2.out',
-          scrollTrigger: { trigger: '.manifesto__list', start: 'top 85%' }
+        // Le domande scivolano in su una a una, restando sempre leggibili.
+        gsap.from('.manifesto__list p', {
+          y: 20, duration: 0.5, stagger: 0.07, ease: 'power2.out',
+          scrollTrigger: { trigger: '.manifesto__list', start: 'top 94%', once: true }
         });
         return;
       }
