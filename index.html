@@ -376,7 +376,6 @@
       overflow: hidden;
     }
     /* Bande video orizzontali: solo mobile (vedi @media). Nascoste su desktop. */
-    .manifesto__band { display: none; }
     .manifesto__pin {
       position: relative;
       width: 100%;
@@ -538,45 +537,6 @@
       font-size: 15px;
     }
 
-    /* Manifesto side videos */
-    .manifesto__visual {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      width: 18%;
-      overflow: hidden;
-      opacity: 0.5;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .manifesto__visual--left { left: 0; }
-    .manifesto__visual--right { right: 0; }
-    .manifesto__visual video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .manifesto__visual--left::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to left, var(--cream) 0%, rgba(245,240,235,0.5) 50%, rgba(245,240,235,0.15));
-      z-index: 1;
-    }
-    .manifesto__visual--right::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, var(--cream) 0%, rgba(245,240,235,0.5) 50%, rgba(245,240,235,0.15));
-      z-index: 1;
-    }
-    .manifesto__visual::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, var(--cream) 0%, transparent 12%, transparent 88%, var(--cream));
-      z-index: 1;
-    }
     .manifesto__slide { z-index: 2; }
 
     /* ══ VIDEO — "E si può togliere" ══ */
@@ -2134,7 +2094,6 @@
       .method-tools { margin-top: 14px; padding: 14px 0; gap: 10px; }
       .meth__steps::before { display: none; }
       .manifesto__list { grid-template-columns: 1fr 1fr; max-width: 100%; }
-      .manifesto__visual { width: 14%; opacity: 0.35; }
     }
 
     /* ── Mobile ── */
@@ -2205,44 +2164,6 @@
       .q-check::after { left: 7px; top: 4px; width: 5px; height: 9px; }
       .manifesto__body { font-size: 14px; line-height: 1.7; margin-top: 14px; max-width: 100%; }
       .manifesto__cta-wrap { margin-top: 24px; }
-
-      /* I video laterali (overlay del desktop) sono nascosti su mobile.
-         Al loro posto compaiono le due bande orizzontali full-width
-         (.manifesto__band), figlie dirette della sezione. */
-      .manifesto__visual { display: none; }
-      .manifesto__band {
-        display: block;
-        position: relative;
-        width: 100%;
-        height: clamp(190px, 52vw, 250px);
-        overflow: hidden;
-      }
-      .manifesto__band video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: contrast(1.04) brightness(1.02);
-      }
-      /* Sfumatura verso il cream sul bordo interno: sotto la banda alta, sopra la bassa */
-      .manifesto__band::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2;
-      }
-      .manifesto__band--top::after {
-        background: linear-gradient(to bottom,
-          rgba(245,240,235,0) 55%,
-          rgba(245,240,235,0.55) 84%,
-          var(--cream) 100%);
-      }
-      .manifesto__band--bottom::after {
-        background: linear-gradient(to top,
-          rgba(245,240,235,0) 55%,
-          rgba(245,240,235,0.55) 84%,
-          var(--cream) 100%);
-      }
 
       /* Marquee — solo size/spacing su mobile (il trattamento tipografico resta) */
       .marquee-strip { padding: 36px 0; }
@@ -2526,7 +2447,6 @@
       .manifesto__list p { font-size: 14px; padding: 13px 14px 13px 46px; line-height: 1.35; }
       .manifesto__list p strong { line-height: 1.45; }
       .manifesto__body { font-size: 13px; line-height: 1.6; }
-      .manifesto__band { height: clamp(160px, 48vw, 200px); }
 
       .btn-main { padding: 14px 24px; font-size: 10px; width: 100%; justify-content: center; }
 
@@ -3238,14 +3158,7 @@
        MANIFESTO (Pinned Problem)
   ═══════════════════════════════════════ -->
   <section class="manifesto" id="manifesto">
-    <!-- Banda video in cima — solo mobile -->
-    <div class="manifesto__band manifesto__band--top">
-      <video autoplay muted loop playsinline><source src="video_orlandotosi1.mp4" type="video/mp4"></video>
-    </div>
     <div class="manifesto__pin">
-      <div class="manifesto__visual manifesto__visual--left">
-        <video autoplay muted loop playsinline><source src="video_orlandotosi1.mp4" type="video/mp4"></video>
-      </div>
       <div class="manifesto__slide" data-slide="0">
         <span class="manifesto__label">Una domanda alla volta</span>
         <h2>Rispondi mentalmente.<br><span class="manifesto__italic">Senti se è il tuo caso.</span></h2>
@@ -3279,13 +3192,6 @@
           <a href="#cta" class="btn-main btn-dark magnetic"><span>Prenota una call di chiarezza</span> <span class="arrow">→</span></a>
         </div>
       </div>
-      <div class="manifesto__visual manifesto__visual--right">
-        <video autoplay muted loop playsinline><source src="video_orlandotosi2.mp4" type="video/mp4"></video>
-      </div>
-    </div>
-    <!-- Banda video in fondo — solo mobile -->
-    <div class="manifesto__band manifesto__band--bottom">
-      <video autoplay muted loop playsinline><source src="video_orlandotosi2.mp4" type="video/mp4"></video>
     </div>
   </section>
 
