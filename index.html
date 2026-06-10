@@ -611,18 +611,23 @@
       object-fit: cover;
       border: 0;
     }
-    /* Placeholder — rimuovere quando si inserisce il <video>/<iframe> */
-    .reveal-video__placeholder {
+    /* Overlay con pulsante play sopra il video */
+    .reveal-video__overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 18px;
-      color: rgba(245,240,235,0.55);
-      font-family: var(--font);
-      font-weight: 300;
-      letter-spacing: 1px;
-      font-size: 13px;
-      text-transform: uppercase;
+      justify-content: center;
+      background: linear-gradient(160deg, rgba(20,18,16,0.30) 0%, rgba(20,18,16,0.55) 100%);
+      border: 0;
+      cursor: none;
+      transition: opacity 0.5s ease;
+      z-index: 2;
+      transform: translateZ(0);
+    }
+    .reveal-video__frame.is-playing .reveal-video__overlay {
+      opacity: 0;
+      pointer-events: none;
     }
     .reveal-video__play {
       width: 76px;
@@ -3285,20 +3290,17 @@
   </section>
 
   <!-- ═══════════════════════════════════════
-       VIDEO — "E si può togliere" (riquadro predisposto)
-       Per attivare: sostituire .reveal-video__placeholder con
-       <video controls playsinline poster="...">…</video> oppure un <iframe>.
+       VIDEO — landing (click per play/pausa)
   ═══════════════════════════════════════ -->
   <section class="reveal-video" id="video">
     <div class="reveal-video__inner">
-      <div class="reveal-video__frame">
-        <!-- VIDEO QUI -->
-        <div class="reveal-video__placeholder">
+      <div class="reveal-video__frame" id="landingVideoFrame">
+        <video id="landingVideo" src="images/video_landing.mp4" preload="metadata" playsinline></video>
+        <button class="reveal-video__overlay" id="landingVideoBtn" aria-label="Riproduci il video">
           <span class="reveal-video__play">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
           </span>
-          <span>Video in arrivo</span>
-        </div>
+        </button>
       </div>
       <p class="reveal-video__caption">Te lo spiego io, in due minuti.</p>
     </div>
@@ -3560,29 +3562,35 @@
     </div>
     <div class="video-marquee" id="videoMarquee">
       <div class="video-marquee__track">
-        <div class="vid-card" data-video="videotestimonianze/videoasiaorlando.mp4"><video src="videotestimonianze/videoasiaorlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/asia.mp4"><video src="videotestimonianze/web/asia.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianza2orlando.mp4"><video src="videotestimonianze/videotestimonianza2orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/valerio.mp4"><video src="videotestimonianze/web/valerio.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianza3orlando.mp4"><video src="videotestimonianze/videotestimonianza3orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/mario.mp4"><video src="videotestimonianze/web/mario.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianze4orlando.mp4"><video src="videotestimonianze/videotestimonianze4orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/freddy.mp4"><video src="videotestimonianze/web/freddy.mp4" preload="metadata" playsinline=""></video>
+          <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
+        </div>
+        <div class="vid-card" data-video="videotestimonianze/web/manuel.mp4"><video src="videotestimonianze/web/manuel.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
         <!-- Duplicate for seamless loop -->
-        <div class="vid-card" data-video="videotestimonianze/videoasiaorlando.mp4"><video src="videotestimonianze/videoasiaorlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/asia.mp4"><video src="videotestimonianze/web/asia.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianza2orlando.mp4"><video src="videotestimonianze/videotestimonianza2orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/valerio.mp4"><video src="videotestimonianze/web/valerio.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianza3orlando.mp4"><video src="videotestimonianze/videotestimonianza3orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/mario.mp4"><video src="videotestimonianze/web/mario.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
-        <div class="vid-card" data-video="videotestimonianze/videotestimonianze4orlando.mp4"><video src="videotestimonianze/videotestimonianze4orlando.mp4" preload="metadata" playsinline=""></video>
+        <div class="vid-card" data-video="videotestimonianze/web/freddy.mp4"><video src="videotestimonianze/web/freddy.mp4" preload="metadata" playsinline=""></video>
+          <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
+        </div>
+        <div class="vid-card" data-video="videotestimonianze/web/manuel.mp4"><video src="videotestimonianze/web/manuel.mp4" preload="metadata" playsinline=""></video>
           <div class="vid-card__overlay"><div class="vid-card__play"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div></div>
         </div>
       </div>
@@ -4200,6 +4208,29 @@
       marquee.addEventListener('mouseleave', function() {
         var playing = marquee.querySelector('.vid-card.playing');
         if (!playing) marquee.classList.remove('paused');
+      });
+    })();
+
+    /* ─── VIDEO LANDING ─── */
+    (function() {
+      var frame = document.getElementById('landingVideoFrame');
+      var video = document.getElementById('landingVideo');
+      if (!frame || !video) return;
+      function toggle() {
+        if (video.paused) {
+          video.play();
+          frame.classList.add('is-playing');
+        } else {
+          video.pause();
+          frame.classList.remove('is-playing');
+        }
+      }
+      frame.addEventListener('click', toggle);
+      video.addEventListener('pause', function() { frame.classList.remove('is-playing'); });
+      video.addEventListener('play', function() { frame.classList.add('is-playing'); });
+      video.addEventListener('ended', function() {
+        frame.classList.remove('is-playing');
+        video.currentTime = 0;
       });
     })();
 
